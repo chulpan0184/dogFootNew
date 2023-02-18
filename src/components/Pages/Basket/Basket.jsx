@@ -35,6 +35,15 @@ export function Basket() {
   }
   console.log({ cart })
 
+  useEffect( // useEffect Непускает в карзину без токена
+    () => {
+      if (!token) {
+        navigate('/signin')
+      }
+    },
+    [token],
+  )
+
   const {
     data: products, isLoading, isError, error,
   } = useQuery({
@@ -44,14 +53,17 @@ export function Basket() {
   })
   console.log({ products })
 
-  useEffect( // useEffect Непускает в карзину без токена
-    () => {
-      if (!token) {
-        navigate('/signin')
-      }
-    },
-    [token],
-  )
+  if (isLoading) return <Louder />
+
+  if (isError) {
+    return (
+      <p>
+        Произошла ошибка:
+        {' '}
+        {error.message}
+      </p>
+    )
+  }
 
   const clearBasketHandler = () => {
     dispatch(clearBasket())
