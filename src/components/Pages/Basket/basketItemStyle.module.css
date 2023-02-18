@@ -1,0 +1,27 @@
+.left {
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    color: blue;
+    min-width: 70%;
+    /* border: 1px solid black; */
+    border-radius: 8px;
+    
+}
+.right{
+    display: flex;
+    flex-direction: column;
+    color: blue;
+    min-width: 30%;
+    border: 1px solid black;
+    border-radius: 8px;
+   
+}
+
+.rightInner{
+    display: flex;
+    flex-direction: column;
+    padding: 4px;
+    gap: 8px;
+}
