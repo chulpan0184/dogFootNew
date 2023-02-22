@@ -65,56 +65,31 @@ export function Basket() {
   }
 
   const isAllChecked = products.every((el) => el.isChecked)
+  const findAllCheckedProducts = () => {
+    const allCheckedProducts = []
+    cart.forEach((product) => {
+      if (product.isChecked === true) allCheckedProducts.push(product)
+    })
+    return allCheckedProducts
+  }
   const selectAllProductsHandler = () => {
     if (!isAllChecked) dispatch(chekAllProduct())
     else dispatch(nonChekAllProduct())
   }
 
   console.log({ products })
+  const getBasketProductsById = (idItem) => products.find((product) => product.id === idItem)
+  const sumAllCartProducts = () => findAllCheckedProducts().reduce((sum, product) => {
+    const updatedSum = sum + product.count * getBasketProductsById(product.id).price
+    return updatedSum
+  }, 0)
 
-  // const calculateSum = () => findAllPickedProduct().reduce((sum, product) => {
-  //   const updatedSum = sum + product.count * getBasketProductsById(product.id).price
-  //   return updatedSum
-  // }, 0)
+  const sumDidscauntAllCartProducts = () => findAllCheckedProducts().reduce((sum, product) => {
+    const updatedSumDidscaunt = sum + product.count * getBasketProductsById(product.id).discount
+    return updatedSumDidscaunt
+  }, 0)
 
-  // console.log({ products })
-  // const isAllCardPicked = () => cart.filter((product) => product.isChecked === false).lenght === cart.lenght
-
-  // const ids = Object.keys(cart)
-
-  //  isAllChecked = cart.every(el => el.isChecked)
-  // if (isAllChecked) return dispatch(unChecked())
-
-  // const findAllPickedProducts = () => {
-  //   const allPickedProducts = []
-  //   cart.forEach((product) => {
-  //     if (product.isChecked === true) allPickedProducts.push(product)
-  //   })
-  //   return allPickedProducts
-  // }
-  // const getCartProductById = (idItem) => products.find((product) => product._id === idItem)
-  // const getCartStateProductById = (idItem) => cart.find((product) => product.id === idItem)
-  // const pickAllProductsHandler = () => {
-  //   if (!isAllCardPicked()) dispatch(pickAllProducts())
-  //   else dispatch(notPickAllProducts())
-  // }
-
-  // const calculateSum = () => findAllPickedProducts().reduce((sum, product) => {
-  //   const updatedSum = sum + product.count * getCartProductById(product.id).price
-  //   return updatedSum
-  // }, 0)
-
-  // eslint-disable-next-line array-callback-return
-  // const calculateDiscount = () => findAllPickedProducts().reduce((sum, product) => {
-  //   const updateSum = sum + product.count * getCartProductById(product.id).price * (getCartProductById(product.id).discount / 1)
-  //   return updateSum
-  // }, 0)
-
-  // eslint-disable-next-line array-callback-return
-  // const calculateSumWithDiscount = () => findAllPickedProducts().reduce((sum, product) => {
-  //   const updateSum = sum + product.count * getCartProductById(product.id).price * ((100 - getCartProductById(product.id).discount) / 1)
-  //   return updateSum
-  // }, 0)
+  const totalSumAllCartProducts = sumAllCartProducts() - sumDidscauntAllCartProducts()
 
   return (
     <div className="d-flex justify-content-center flex-column">
@@ -162,14 +137,28 @@ export function Basket() {
             <div className={basketItemStyle.rightInner}>
               <h7>
                 Сумма:
-                {/* {calculateSum()} */}
+                {' '}
+                {sumAllCartProducts()}
+                {' '}
+                руб.
               </h7>
               <h7>
                 Скидка:
+                {' '}
+                {sumDidscauntAllCartProducts()}
+                {' '}
+                руб.
               </h7>
-              <h7>
+              <p>
                 К оплате:
-              </h7>
+                {' '}
+                <span style={{ fontWeight: '700' }}>
+                  {' '}
+                  {totalSumAllCartProducts}
+                  {' '}
+                  руб.
+                </span>
+              </p>
               <button type="button" className="btn btn-primary">
                 Перейти к оплате
               </button>
@@ -183,6 +172,45 @@ export function Basket() {
     </div>
   )
 }
+
+// console.log({ products })
+// const isAllCardPicked = () => cart.filter((product) => product.isChecked === false).lenght === cart.lenght
+
+// const ids = Object.keys(cart)
+
+//  isAllChecked = cart.every(el => el.isChecked)
+// if (isAllChecked) return dispatch(unChecked())
+
+// const findAllPickedProducts = () => {
+//   const allPickedProducts = []
+//   cart.forEach((product) => {
+//     if (product.isChecked === true) allPickedProducts.push(product)
+//   })
+//   return allPickedProducts
+// }
+// const getCartProductById = (idItem) => products.find((product) => product._id === idItem)
+// const getCartStateProductById = (idItem) => cart.find((product) => product.id === idItem)
+// const pickAllProductsHandler = () => {
+//   if (!isAllCardPicked()) dispatch(pickAllProducts())
+//   else dispatch(notPickAllProducts())
+// }
+
+// const calculateSum = () => findAllPickedProducts().reduce((sum, product) => {
+//   const updatedSum = sum + product.count * getCartProductById(product.id).price
+//   return updatedSum
+// }, 0)
+
+// eslint-disable-next-line array-callback-return
+// const calculateDiscount = () => findAllPickedProducts().reduce((sum, product) => {
+//   const updateSum = sum + product.count * getCartProductById(product.id).price * (getCartProductById(product.id).discount / 1)
+//   return updateSum
+// }, 0)
+
+// eslint-disable-next-line array-callback-return
+// const calculateSumWithDiscount = () => findAllPickedProducts().reduce((sum, product) => {
+//   const updateSum = sum + product.count * getCartProductById(product.id).price * ((100 - getCartProductById(product.id).discount) / 1)
+//   return updateSum
+// }, 0)
 
 // const totalDiscountPrise = discountPrise * ids.length
 // console.log({ totalDiscountPrise })
