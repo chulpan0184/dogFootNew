@@ -16,7 +16,6 @@ export function BasketItem({
   const dispatch = useDispatch()
 
   const discountPrise = price * ((100 - discount) / 100)
-
   const removeFromCartHandler = () => {
     dispatch(deleteProduct(id))
   }
@@ -25,9 +24,13 @@ export function BasketItem({
     dispatch(changeIsPickProduct(id))
   }
 
-  const incrementCountHandler = () => { dispatch(productIncrement(id)) }
+  const incrementCountHandler = () => {
+    if (count < stock) { dispatch(productIncrement(id)) }
+  }
 
-  const decrementCountHandler = () => { dispatch(productDecrement(id)) }
+  const decrementCountHandler = () => {
+    if (count > 1) { dispatch(productDecrement(id)) }
+  }
   return (
     <div className={basketitemSyle.wrapper}>
       <div className={basketitemSyle.card}>
@@ -71,9 +74,9 @@ export function BasketItem({
               руб.
             </p>
           </div>
-          <div className="d-flex" style={{ flexDirection: 'row' }}>
+          <div className="d-flex" style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <p>
-              Количество:
+              В наличии:
               {' '}
               {stock}
               {' '}
@@ -81,12 +84,11 @@ export function BasketItem({
             </p>
             <div className="cart-right-info-stock">
               <button onClick={decrementCountHandler} type="button">-</button>
-              <span />
+              <span>{ count }</span>
               <button onClick={incrementCountHandler} type="button">+</button>
             </div>
             <p>
               {' '}
-              { count }
             </p>
           </div>
           <p>

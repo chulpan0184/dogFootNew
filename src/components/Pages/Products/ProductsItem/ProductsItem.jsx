@@ -27,6 +27,7 @@ export function ProductsItem({
     },
     [token],
   )
+
   const discountPrise = price * ((100 - discount) / 100)
 
   const dispatch = useDispatch()

@@ -62,6 +62,3 @@ export const {
 } = cartSlice.actions
 export const getAllCartProductsSelector = (state) => state.cart
 export const cartReducer = cartSlice.reducer
-
-// const currentProduct = state.find((product) => product.id === action.payload)
-// if (currentProduct) state.splice(currentProduct, 1)

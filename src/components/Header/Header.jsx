@@ -6,6 +6,7 @@ import dogLogo from './images/LogoDog.svg'
 import headerStyles from './header.module.css'
 import Search from '../Search/Search'
 import { getTokenSelector, getToken } from '../../redux/slices/tokenSlice'
+import { getAllCartProductsSelector } from '../../redux/slices/cartSlice'
 
 function Header() {
   const token = useSelector(getTokenSelector)
@@ -16,7 +17,9 @@ function Header() {
     console.log(token)
   }
 
-  const { basketCounter } = useSelector((state) => state)
+  const cart = useSelector(getAllCartProductsSelector)
+  const countBasket = Object.keys(cart).length
+  console.log({ countBasket })
 
   return (
     <header className={headerStyles.wr}>
@@ -44,7 +47,7 @@ function Header() {
               to="/basket"
             >
               Basket
-              <div className={headerStyles.basketCounter}>{basketCounter}</div>
+              <div className={headerStyles.basketCounter}>{countBasket}</div>
             </NavLink>
           </li>
           <li>
