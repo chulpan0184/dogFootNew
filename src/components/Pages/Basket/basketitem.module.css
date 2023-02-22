@@ -28,6 +28,8 @@
     
 }
 .card p {
+    position: relative;
+    display: flex;
     text-align: left;
     margin: 0;
 }

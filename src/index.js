@@ -10,7 +10,7 @@ import App from './App'
 import { Signup } from './components/Pages/Signup/Signup'
 import { SigninMemo as Signin } from './components/Pages/Signin/Signin'
 import { MainMemo as Main } from './components/Main/Main'
-import { ProductsMemo as Products } from './components/Pages/Products/Products'
+import { Products } from './components/Pages/Products/Products'
 import { Basket } from './components/Pages/Basket/Basket'
 import { store } from './redux/store'
 

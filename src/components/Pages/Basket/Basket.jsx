@@ -1,39 +1,24 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable max-len */
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
-// import { useState, useEffect, memo } from 'react'
-// import { useQuery } from '@tanstack/react-query'
-
-// import { useSelector } from 'react-redux'
-// import { dogFoodApi } from '../../../api/DogFoodApi'
-// import { ProductsItem } from '../Products/ProductsItem/ProductsItem'
-// import { Louder } from '../../louder/Louder'
-// import { basketCounterReducer } from '../../../redux/reducer/basketCounterReduser'
-// import basketStyle from './basketStyle.module.css'
-
+/* eslint-disable no-unused-vars */
 import { useSelector, useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
+import { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { clearBasket, getAllCartProductsSelector } from '../../../redux/slices/cartSlice'
-
 import { Louder } from '../../louder/Louder'
 import { dogFoodApi } from '../../../api/DogFoodApi'
 import { getQueryCartKey } from '../../../utils'
 import { getTokenSelector } from '../../../redux/slices/tokenSlice'
 import basketItemStyle from './basketItemStyle.module.css'
-import BasketItem from './BasketItem'
+import { BasketItem } from './BasketItem'
+import { clearBasket, getAllCartProductsSelector } from '../../../redux/slices/cartSlice'
 
 export function Basket() {
   const cart = useSelector(getAllCartProductsSelector)
   const token = useSelector(getTokenSelector)
   const navigate = useNavigate()
   const dispatch = useDispatch()
-
-  function isCheckedAllProducts() {
-    return cart.every(() => (product) => isCheked)
-  }
-  console.log({ cart })
 
   useEffect( // useEffect Непускает в карзину без токена
     () => {
@@ -45,13 +30,13 @@ export function Basket() {
   )
 
   const {
-    data: products, isLoading, isError, error,
+    data = [], isLoading, isError, error,
   } = useQuery({
     queryKey: [getQueryCartKey(cart.lenght)],
     queryFn: () => dogFoodApi.getProductsByIds(cart.map((product) => product.id), token),
-    enabled: (token !== undefined) && (token !== ''),
+    keepPreviousData: true,
+    enabled: !!token,
   })
-  console.log({ products })
 
   if (isLoading) return <Louder />
 
@@ -65,25 +50,40 @@ export function Basket() {
     )
   }
 
+  const products = cart.map((product) => {
+    const productFromBack = data.find((productBack) => productBack._id === product.id)
+    if (productFromBack) {
+      return { ...product, ...productFromBack }
+    }
+    return product
+  })
+
   const clearBasketHandler = () => {
     dispatch(clearBasket())
   }
 
-  const isAllCardPicked = () => products.filter((item) => item.isChecked === true).lenght === cart.lenght
+  console.log({ products })
+  const isAllCardPicked = () => cart.filter((product) => product.isChecked === false).lenght === cart.lenght
+
+  const ids = Object.keys(cart)
+
+  //  isAllChecked = cart.every(el => el.isChecked)
+  // if (isAllChecked) return dispatch(unChecked())
+
   const findAllPickedProducts = () => {
     const allPickedProducts = []
-    cart.forEach((item) => {
-      if (item.isChecked === true) allPickedProducts.push(item)
+    cart.forEach((product) => {
+      if (product.isChecked === true) allPickedProducts.push(product)
     })
     return allPickedProducts
   }
-
-  const getCartProductById = (idItem) => cart.find((product) => product._id === idItem)
+  const getCartProductById = (idItem) => products.find((product) => product._id === idItem)
   const getCartStateProductById = (idItem) => cart.find((product) => product.id === idItem)
   const pickAllProductsHandler = () => {
     if (!isAllCardPicked()) dispatch(pickAllProducts())
     else dispatch(notPickAllProducts())
   }
+
   const calculateSum = () => findAllPickedProducts().reduce((sum, product) => {
     const updatedSum = sum + product.count * getCartProductById(product.id).price
     return updatedSum
@@ -92,75 +92,107 @@ export function Basket() {
   // eslint-disable-next-line array-callback-return
   const calculateDiscount = () => findAllPickedProducts().reduce((sum, product) => {
     const updateSum = sum + product.count * getCartProductById(product.id).price * (getCartProductById(product.id).discount / 1)
+    return updateSum
   }, 0)
 
   // eslint-disable-next-line array-callback-return
   const calculateSumWithDiscount = () => findAllPickedProducts().reduce((sum, product) => {
     const updateSum = sum + product.count * getCartProductById(product.id).price * ((100 - getCartProductById(product.id).discount) / 1)
+    return updateSum
   }, 0)
 
+  console.log('nknl;bnm,./bnm,.gbhnjmk,l.;/')
   return (
     <div className="d-flex justify-content-center flex-column">
+      {!cart[0]
+      && (
+      <h3>Карзина пуста</h3>
+      )}
       {products[0] && (
-        <ul>
-          <div className="d-flex flex-row" style={{ marginBottom: '8px' }}>
-            <input
-              type="checkbox"
-              value="isChecked"
-              onClick={isAllCardPicked}
-            />
-            <p>Выделить все</p>
+      <ul>
+        <div className="d-flex flex-row" style={{ marginBottom: '8px' }}>
+          <input
+            id="select_all"
+            type="checkbox"
+            checked={isAllCardPicked()}
+            // onChange={pickAllProductsHandler}
+          />
+          <label htmlFor="select_all">Выделить все</label>
+          <div className={basketItemStyle.left}>
 
-            <div className={basketItemStyle.left}>
-
-              <h5 className="text-center">Товары в карзине</h5>
+            <h5 className="text-center">Товары в карзине</h5>
+            <Link to="/products">
               <button type="button" className="btn btn-primary" onClick={clearBasketHandler}>
                 Очистить карзину
               </button>
+            </Link>
+          </div>
+        </div>
+        <div className="d-flex flex-row" style={{ flexWrap: 'nowrap', alignItems: 'flex-start' }}>
+          <div className="d-flex justify-content-center flex-row" style={{ flexWrap: 'wrap', gap: '16px', alignItems: 'center' }}>
+            {products.map((product) => (
+              <BasketItem
+                key={product._id}
+                id={product._id}
+                name={product.name}
+                price={product.price}
+                pictures={product.pictures}
+                wight={product.wight}
+                description={product.description}
+                isChecked={product.isChecked}
+                discount={product.discount}
+                stock={product.stock}
+                count={product.count}
+              />
+            ))}
+          </div>
+          <div className={basketItemStyle.right}>
+            <h6 className="text-center p-1">Информация о заказе</h6>
+            <div className={basketItemStyle.rightInner}>
+              <h7>
+                Сумма:
+                {calculateSum()}
+              </h7>
+              <h7>
+                Скидка:
+              </h7>
+              <h7>
+                К оплате:
+              </h7>
             </div>
-
           </div>
 
-          <div className="d-flex flex-row" style={{ flexWrap: 'nowrap', alignItems: 'flex-start' }}>
-            <div className="d-flex justify-content-center flex-row" style={{ flexWrap: 'wrap', gap: '16px', alignItems: 'center' }}>
-              {products.map(({ id, ...item }) => (
-                <BasketItem
-                  key={id}
-                  id={id}
-                  name={item.name}
-                  price={item.price}
-                  pictures={item.pictures}
-                  wight={item.wight}
-                  description={item.description}
-                  checked={item.description}
-                  discount={item.isChecked}
-                  stock={item.stock}
-                />
-              ))}
-            </div>
-            <div className={basketItemStyle.right}>
-              <h6 className="text-center p-1">Информация о заказе</h6>
-              <div className={basketItemStyle.rightInner}>
-                <h7>
-                  Сумма:
+        </div>
 
-                </h7>
-                <h7>
-                  Скидка:
-                </h7>
-                <h7>
-                  К оплате:
-                </h7>
-              </div>
-            </div>
-
-          </div>
-
-        </ul>
+      </ul>
       )}
     </div>
   )
 }
+
+// const totalDiscountPrise = discountPrise * ids.length
+// console.log({ totalDiscountPrise })
+
+// const getSumPriceAllProducts = () => {
+//   if (products) {
+//     let sumAllProduct = 0
+//     let sumAllProductWithoutDiscount = 0
+//     // eslint-disable-next-line consistent-return
+//     products.map((product) => {
+//       if (cart[product.id].isChecked) {
+//         const { count } = cart[product.id]
+//         if (product.discount) {
+//           const discountPrice = product.price * ((100 - product.discount) / 100)
+//           sumAllProduct += discountPrice * count
+//         } else {
+//           sumAllProduct += product.price * count
+//         }
+//         sumAllProductWithoutDiscount += product.price * count
+//         return sumAllProduct
+//       }
+//     })
+//   }
+// }
 
 // eslint-disable-next-line max-len
 // const isAllBasketPicked = () => products.filter((item) => item.isPicked === true).lenght === products.lenght

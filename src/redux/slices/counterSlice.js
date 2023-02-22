@@ -1,19 +1,21 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { initState } from '../initState'
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-return-assign */
+// import { createSlice } from '@reduxjs/toolkit'
+// import { initState } from '../initState'
 
-const counterSlice = createSlice({
-  name: 'counter',
-  initialState: initState.counter,
-  reducers: {
-    productIncrement(state) {
-      return state + 1
-    },
-    productDecrement(state) {
-      return state - 1
-    },
-  },
-})
+// const counterSlice = createSlice({
+//   name: 'counter',
+//   initialState: initState.counter,
+//   reducers: {
+//     productIncrement(state) {
+//       return state + 1
+//     },
+//     productDecrement(state) {
+//       return state - 1
+//     },
+//   },
+// })
 
-export const { productIncrement, productDecrement } = counterSlice.actions
-export const counterReducer = counterSlice.reducer
-export const counterProductsSelector = (state) => state.counter
+// export const { productIncrement, productDecrement } = counterSlice.actions
+// export const counterReducer = counterSlice.reducer
+// export const counterProductsSelector = (state) => state.counter

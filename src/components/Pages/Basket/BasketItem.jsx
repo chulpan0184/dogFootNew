@@ -2,50 +2,67 @@
 /* eslint-disable max-len */
 /* eslint-disable jsx-a11y/alt-text */
 import { useDispatch, useSelector } from 'react-redux'
-import { changeIsPickProduct, deleteProduct, getAllCartProductsSelector } from '../../../redux/slices/cartSlice'
-import { counterProductsSelector, productDecrement, productIncrement } from '../../../redux/slices/counterSlice'
+import {
+  changeIsPickProduct, deleteProduct, addNewProduct, getAllCartProductsSelector, productIncrement, productDecrement,
+} from '../../../redux/slices/cartSlice'
+// import { counterProductsSelector, productDecrement, productIncrement } from '../../../redux/slices/counterSlice'
 import basketitemSyle from './basketitem.module.css'
 
-function BasketItem({
+export function BasketItem({
 
-  pictures, products, name, price, id, description, discount, isChecked, count, stock, wight,
+  pictures, name, price, id, description, discount, wight, stock, count, isChecked,
 }) {
   const cart = useSelector(getAllCartProductsSelector)
+
   const dispatch = useDispatch()
 
-  const deleteProductHandler = () => {
+  const discountPrise = price * ((100 - discount) / 100)
+
+  const moveToCartHandler = () => {
+    dispatch(addNewProduct(id))
+  }
+
+  const removeFromCartHandler = () => {
     dispatch(deleteProduct(id))
   }
+
+  const isInCart = (productsListId) => cart.find((product) => product.id === productsListId)
+  console.log(cart)
+
+  // const changeStatusCheckbox = () => {
+  //   const target = Object.keys(cart).find((currentID) => currentID === id)
+  //   dispatch(changeIsPickProduct(target))
+  // }
+  // const priceRorStock = price * count
+  // const discountpriceForStock = discountPrise * count
+
+  // const deleteProductHandler = () => {
+  //   console.log('bjbkn')
+  //   console.log({ id })
+  //   dispatch(deleteProduct(id))
+  // }
+
+  // const moveToCartHandler = () => {
+  //   console.log({ id })
+  //   dispatch(addNewProduct(id))
+  // }
+
   const selectProductHandler = () => {
     dispatch(changeIsPickProduct(id))
   }
-  const incrementCountHandler = () => {
-    if (count < stock) { dispatch(productIncrement()) }
-  }
-  const decrementCountHandler = () => {
-    if (count > 0) {
-      dispatch(productDecrement(id))
-    }
-  }
 
-  // const cart = useSelector(getAllCartProductsSelector)
-  // const { counterProducts } = useSelector(counterProductsSelector)
-  // console.log({ counterProducts })
+  const incrementCountHandler = () => { dispatch(productIncrement(id)) }
 
-  // console.log(decrementCountHandler)
-
-  const isInCart = (productsListId) => cart.find((product) => product.id === productsListId)
-
+  const decrementCountHandler = () => { dispatch(productDecrement(id)) }
   return (
     <div className={basketitemSyle.wrapper}>
       <div className={basketitemSyle.card}>
         <div className={basketitemSyle.cardWr}>
-          <p>{products}</p>
           <div style={{
             display: 'flex',
             position: 'relative',
             justifyContent: 'center',
-            minHeight: '50px',
+            minHeight: '40px',
           }}
           >
             <h6>{name}</h6>
@@ -54,60 +71,72 @@ function BasketItem({
             display: 'flex',
             position: 'relative',
             justifyContent: 'center',
-            marginBottom: '20px',
+            marginBottom: '2px',
           }}
           >
-            <img style={{ borderRadius: '8px' }} width="250px" height="150px" src={pictures} />
+            <img style={{ borderRadius: '8px' }} width="250px" height="160px" src={pictures} />
           </div>
           <p>
             Описание:
             {' '}
             {description}
           </p>
-          <p>
-            цена:
-            {' '}
-            {price}
-            {' '}
-            {' '}
-            руб.
-          </p>
-          <p>
-            Количество:
-            {' '}
-            {stock}
-            {' '}
-            шт.
-          </p>
+          <div className="d-flex flex-derection-row gap-2">
+            <span> цена:</span>
+            <s>
+              {' '}
+              {price}
+              {' '}
+              руб.
+              {' '}
+            </s>
+            <p>
+              {' '}
+              {discountPrise}
+              {' '}
+              руб.
+            </p>
+          </div>
+          <div className="d-flex" style={{ flexDirection: 'row' }}>
+            <p>
+              Количество:
+              {' '}
+              {stock}
+              {' '}
+              шт.
+            </p>
+            <div className="cart-right-info-stock">
+              <button onClick={decrementCountHandler} type="button">-</button>
+              <span />
+              <button onClick={incrementCountHandler} type="button">+</button>
+            </div>
+            <p>
+              {' '}
+              { count }
+            </p>
+          </div>
           <p>
             Скидка:
             {' '}
             {discount}
-            {' '}
-            руб.
+            %
           </p>
-          <p className="mb-4">
+          <p className="mb-1">
             Вес:
             {' '}
             {wight}
           </p>
-          <button className="btn btn-primary mb-3" type="button" onClick={isInCart(id) ? deleteProductHandler : selectProductHandler}>
-            {isInCart(id) ? 'Удалить' : 'В карзине'}
+          <button className="btn btn-primary mb-3" type="button" onClick={isInCart(id) ? removeFromCartHandler : selectProductHandler}>
+            {isInCart(id) ? 'В корзине' : 'Добавить в карзину'}
           </button>
           <input
             type="checkbox"
+            onChange={changeIsPickProduct}
             checked={isChecked}
-            onChange={selectProductHandler}
+            // onChange={selectProductHandler}
           />
-          {/* <button className="btn btn-primary" type="button" onClick={incrementCountHandler}>
-            +
-            {' '}
-            {counterProducts}
-          </button> */}
-
         </div>
       </div>
     </div>
   )
 }
-export default BasketItem

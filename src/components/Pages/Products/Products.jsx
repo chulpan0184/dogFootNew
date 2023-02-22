@@ -3,7 +3,7 @@
 /* eslint-disable no-lone-blocks */
 
 import { useQuery } from '@tanstack/react-query'
-import { memo, useEffect } from 'react'
+import { useEffect } from 'react'
 // import { dogFoodApi } from '../../../api/DogFoodApi'
 // import { AppTokenContext } from '../../contexts/AppTokenContextProvider'
 import { useDispatch, useSelector } from 'react-redux'
@@ -23,7 +23,7 @@ import { getTokenSelector } from '../../../redux/slices/tokenSlice'
 
 // const ProductsInnerWithQuery = withQuery(ProductsInner)
 
-function Products() {
+export function Products() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const addBasketProductsHendler = () => {
@@ -113,7 +113,6 @@ function Products() {
 
   // return <ProductsInnerWithQuery data={data} />
 }
-export const ProductsMemo = memo(Products)
 
 //   const res = await fetch(`${this.baseUrl}/products`, {
 //     method: 'GET',

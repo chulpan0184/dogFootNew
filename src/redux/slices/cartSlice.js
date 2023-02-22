@@ -7,18 +7,37 @@ const cartSlice = createSlice({
   reducers: {
     changeIsPickProduct(state, action) {
       const currentProduct = state.find((product) => product.id === action.payload)
-      if (currentProduct) currentProduct.isPicked = !currentProduct.isPicked
+      if (currentProduct) currentProduct.isChecked = !currentProduct.isChecked
     },
+
     deleteProduct(state, action) {
       return state.filter((product) => product.id !== action.payload)
     },
     clearBasket() {
       return []
     },
-
-    // incrementCountHandler(state, action){
-    //   return c
-    // },
+    productIncrement(state, action) {
+      const currentProduct = state.find((product) => product.id === action.payload)
+      if (currentProduct) {
+        currentProduct.count += 1
+      }
+    },
+    productDecrement(state, action) {
+      const currentProduct = state.find((product) => product.id === action.payload)
+      if (currentProduct) {
+        currentProduct.count -= 1
+      }
+    },
+    chekAllProduct(state) {
+      return state.map((product) => ({
+        ...product, isChecked: true,
+      }))
+    },
+    nonChekAllProduct(state) {
+      return state.map((product) => ({
+        ...product, isChecked: false,
+      }))
+    },
     addNewProduct: {
       reducer(state, action) {
         const currentProduct = state.find((product) => product.id === action.payload)
@@ -38,7 +57,11 @@ const cartSlice = createSlice({
 })
 
 export const {
-  changeIsPickProduct, deleteProduct, clearBasket, addNewProduct,
+  // eslint-disable-next-line max-len
+  changeIsPickProduct, deleteProduct, clearBasket, addNewProduct, productIncrement, productDecrement,
 } = cartSlice.actions
 export const getAllCartProductsSelector = (state) => state.cart
 export const cartReducer = cartSlice.reducer
+
+// const currentProduct = state.find((product) => product.id === action.payload)
+// if (currentProduct) state.splice(currentProduct, 1)

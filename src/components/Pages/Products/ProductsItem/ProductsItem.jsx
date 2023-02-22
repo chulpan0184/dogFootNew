@@ -6,13 +6,28 @@
 // import { useDispatch } from 'react-redux'
 
 import { useDispatch, useSelector } from 'react-redux'
+import { Navigate } from 'react-router-dom'
+import { useEffect } from 'react'
 import { addNewProduct, deleteProduct, getAllCartProductsSelector } from '../../../../redux/slices/cartSlice'
+
 import productsitemStyle from './productsitem.module.css'
+import { getTokenSelector } from '../../../../redux/slices/tokenSlice'
 
 export function ProductsItem({
-  name, products, price, pictures, wight, id, discount, isChecked, count, stock,
+  name, products, price, pictures, wight, id, discount, isPicked, count, stock,
 }) {
-  const cartProducts = useSelector(getAllCartProductsSelector)
+  const cart = useSelector(getAllCartProductsSelector)
+  const token = useSelector(getTokenSelector)
+
+  useEffect(
+    () => {
+      if (!token) {
+        Navigate('/signin')
+      }
+    },
+    [token],
+  )
+  const discountPrise = price * ((100 - discount) / 100)
 
   const dispatch = useDispatch()
   const moveToCartHandler = () => {
@@ -23,7 +38,7 @@ export function ProductsItem({
     dispatch(deleteProduct(id))
   }
 
-  const isInCart = (productsListId) => cartProducts.find((product) => product.id === productsListId)
+  const isInCart = (productsListId) => cart.find((product) => product.id === productsListId)
 
   return (
     <div className={productsitemStyle.wrapper}>
@@ -48,14 +63,22 @@ export function ProductsItem({
           >
             <img style={{ borderRadius: '8px' }} width="250px" height="150px" src={pictures} />
           </div>
-          <p>
-            цена:
-            {' '}
-            {price}
-            {' '}
-            {' '}
-            руб.
-          </p>
+          <div className="d-flex flex-derection-row gap-2">
+            <span> цена:</span>
+            <s>
+              {' '}
+              {price}
+              {' '}
+              руб.
+              {' '}
+            </s>
+            <p>
+              {' '}
+              {discountPrise}
+              {' '}
+              руб.
+            </p>
+          </div>
           <p>
             Количество:
             {' '}
@@ -67,8 +90,7 @@ export function ProductsItem({
             Скидка:
             {' '}
             {discount}
-            {' '}
-            руб.
+            %
           </p>
           <p className="mb-4">
             Вес:
