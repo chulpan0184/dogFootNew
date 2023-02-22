@@ -64,6 +64,19 @@ export function Basket() {
     dispatch(clearBasket())
   }
 
+  const isAllChecked = products.every((el) => el.isChecked)
+  const selectAllProductsHandler = () => {
+    if (!isAllChecked) dispatch(chekAllProduct())
+    else dispatch(nonChekAllProduct())
+  }
+
+  console.log({ products })
+
+  // const calculateSum = () => findAllPickedProduct().reduce((sum, product) => {
+  //   const updatedSum = sum + product.count * getBasketProductsById(product.id).price
+  //   return updatedSum
+  // }, 0)
+
   // console.log({ products })
   // const isAllCardPicked = () => cart.filter((product) => product.isChecked === false).lenght === cart.lenght
 
@@ -71,13 +84,6 @@ export function Basket() {
 
   //  isAllChecked = cart.every(el => el.isChecked)
   // if (isAllChecked) return dispatch(unChecked())
-  console.log({ products })
-
-  const isAllChecked = products.every((el) => el.isChecked)
-  const selectAllProductsHandler = () => {
-    if (!isAllChecked) dispatch(chekAllProduct())
-    else dispatch(nonChekAllProduct())
-  }
 
   // const findAllPickedProducts = () => {
   //   const allPickedProducts = []
@@ -128,11 +134,9 @@ export function Basket() {
           <div className={basketItemStyle.left}>
 
             <h5 className="text-center">Товары в карзине</h5>
-            <Link to="/products">
-              <button type="button" className="btn btn-primary" onClick={clearBasketHandler}>
-                Очистить карзину
-              </button>
-            </Link>
+            <button type="button" className="btn btn-danger" onClick={clearBasketHandler}>
+              Очистить карзину
+            </button>
           </div>
         </div>
         <div className="d-flex flex-row" style={{ flexWrap: 'nowrap', alignItems: 'flex-start' }}>
@@ -166,6 +170,9 @@ export function Basket() {
               <h7>
                 К оплате:
               </h7>
+              <button type="button" className="btn btn-primary">
+                Перейти к оплате
+              </button>
             </div>
           </div>
 

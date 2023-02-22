@@ -13,10 +13,10 @@ import { ProductsItem } from './ProductsItem/ProductsItem'
 // import { withQuery } from '../../HOCs/withQuery'
 import { dogFoodApi } from '../../../api/DogFoodApi'
 import productsStyle from './productsStyle.module.css'
-import { DELETE_ALL_PRODUCTS } from '../../../redux/type'
 import { getQuerySearchKey } from '../../../utils'
 import { getSearchSelector } from '../../../redux/slices/filterSlice'
 import { getTokenSelector } from '../../../redux/slices/tokenSlice'
+import { clearBasket } from '../../../redux/slices/cartSlice'
 // import { withQuery } from '../../HOCs/withQuery'
 
 // function ProductsInner({ data })
@@ -30,11 +30,10 @@ export function Products() {
     navigate('/basket')
   }
 
-  const clearProductsHandler = () => {
-    dispatch({
-      type: DELETE_ALL_PRODUCTS,
-    })
+  const clearBasketHandler = () => {
+    dispatch(clearBasket())
   }
+
   const token = useSelector(getTokenSelector)
   useEffect(
     () => {
@@ -74,7 +73,7 @@ export function Products() {
     <>
       <div className="d-flex flex-row" style={{ justifyContent: 'space-around' }}>
         <button
-          onClick={clearProductsHandler}
+          onClick={clearBasketHandler}
           type="button"
           className="btn btn-danger"
         >

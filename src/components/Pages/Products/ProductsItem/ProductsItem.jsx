@@ -101,9 +101,6 @@ export function ProductsItem({
           <button className="btn btn-primary mb-3" type="button" onClick={isInCart(id) ? removeFromCartHandler : moveToCartHandler}>
             {isInCart(id) ? 'В корзине' : 'Добавить в карзину'}
           </button>
-          <input
-            type="checkbox"
-          />
         </div>
       </div>
     </div>
