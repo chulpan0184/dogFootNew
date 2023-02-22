@@ -26,8 +26,8 @@ export function BasketItem({
     dispatch(deleteProduct(id))
   }
 
-  const isInCart = (productsListId) => cart.find((product) => product.id === productsListId)
-  console.log(cart)
+  // const isInCart = (productsListId) => cart.find((product) => product.id === productsListId)
+  // console.log(cart)
 
   // const changeStatusCheckbox = () => {
   //   const target = Object.keys(cart).find((currentID) => currentID === id)
@@ -126,8 +126,8 @@ export function BasketItem({
             {' '}
             {wight}
           </p>
-          <button className="btn btn-primary mb-3" type="button" onClick={isInCart(id) ? removeFromCartHandler : selectProductHandler}>
-            {isInCart(id) ? 'В корзине' : 'Добавить в карзину'}
+          <button className="btn btn-primary mb-3" type="button" onClick={removeFromCartHandler}>
+            Удалить
           </button>
           <input
             type="checkbox"
