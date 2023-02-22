@@ -58,7 +58,7 @@ const cartSlice = createSlice({
 
 export const {
   // eslint-disable-next-line max-len
-  changeIsPickProduct, deleteProduct, clearBasket, addNewProduct, productIncrement, productDecrement,
+  changeIsPickProduct, deleteProduct, clearBasket, addNewProduct, productIncrement, productDecrement, chekAllProduct, nonChekAllProduct,
 } = cartSlice.actions
 export const getAllCartProductsSelector = (state) => state.cart
 export const cartReducer = cartSlice.reducer

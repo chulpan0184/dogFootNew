@@ -12,7 +12,9 @@ import { getQueryCartKey } from '../../../utils'
 import { getTokenSelector } from '../../../redux/slices/tokenSlice'
 import basketItemStyle from './basketItemStyle.module.css'
 import { BasketItem } from './BasketItem'
-import { clearBasket, getAllCartProductsSelector } from '../../../redux/slices/cartSlice'
+import {
+  chekAllProduct, clearBasket, getAllCartProductsSelector, nonChekAllProduct,
+} from '../../../redux/slices/cartSlice'
 
 export function Basket() {
   const cart = useSelector(getAllCartProductsSelector)
@@ -62,46 +64,52 @@ export function Basket() {
     dispatch(clearBasket())
   }
 
-  console.log({ products })
-  const isAllCardPicked = () => cart.filter((product) => product.isChecked === false).lenght === cart.lenght
+  // console.log({ products })
+  // const isAllCardPicked = () => cart.filter((product) => product.isChecked === false).lenght === cart.lenght
 
-  const ids = Object.keys(cart)
+  // const ids = Object.keys(cart)
 
   //  isAllChecked = cart.every(el => el.isChecked)
   // if (isAllChecked) return dispatch(unChecked())
+  console.log({ products })
 
-  const findAllPickedProducts = () => {
-    const allPickedProducts = []
-    cart.forEach((product) => {
-      if (product.isChecked === true) allPickedProducts.push(product)
-    })
-    return allPickedProducts
-  }
-  const getCartProductById = (idItem) => products.find((product) => product._id === idItem)
-  const getCartStateProductById = (idItem) => cart.find((product) => product.id === idItem)
-  const pickAllProductsHandler = () => {
-    if (!isAllCardPicked()) dispatch(pickAllProducts())
-    else dispatch(notPickAllProducts())
+  const isAllChecked = products.every((el) => el.isChecked)
+  const selectAllProductsHandler = () => {
+    if (!isAllChecked) dispatch(chekAllProduct())
+    else dispatch(nonChekAllProduct())
   }
 
-  const calculateSum = () => findAllPickedProducts().reduce((sum, product) => {
-    const updatedSum = sum + product.count * getCartProductById(product.id).price
-    return updatedSum
-  }, 0)
+  // const findAllPickedProducts = () => {
+  //   const allPickedProducts = []
+  //   cart.forEach((product) => {
+  //     if (product.isChecked === true) allPickedProducts.push(product)
+  //   })
+  //   return allPickedProducts
+  // }
+  // const getCartProductById = (idItem) => products.find((product) => product._id === idItem)
+  // const getCartStateProductById = (idItem) => cart.find((product) => product.id === idItem)
+  // const pickAllProductsHandler = () => {
+  //   if (!isAllCardPicked()) dispatch(pickAllProducts())
+  //   else dispatch(notPickAllProducts())
+  // }
+
+  // const calculateSum = () => findAllPickedProducts().reduce((sum, product) => {
+  //   const updatedSum = sum + product.count * getCartProductById(product.id).price
+  //   return updatedSum
+  // }, 0)
 
   // eslint-disable-next-line array-callback-return
-  const calculateDiscount = () => findAllPickedProducts().reduce((sum, product) => {
-    const updateSum = sum + product.count * getCartProductById(product.id).price * (getCartProductById(product.id).discount / 1)
-    return updateSum
-  }, 0)
+  // const calculateDiscount = () => findAllPickedProducts().reduce((sum, product) => {
+  //   const updateSum = sum + product.count * getCartProductById(product.id).price * (getCartProductById(product.id).discount / 1)
+  //   return updateSum
+  // }, 0)
 
   // eslint-disable-next-line array-callback-return
-  const calculateSumWithDiscount = () => findAllPickedProducts().reduce((sum, product) => {
-    const updateSum = sum + product.count * getCartProductById(product.id).price * ((100 - getCartProductById(product.id).discount) / 1)
-    return updateSum
-  }, 0)
+  // const calculateSumWithDiscount = () => findAllPickedProducts().reduce((sum, product) => {
+  //   const updateSum = sum + product.count * getCartProductById(product.id).price * ((100 - getCartProductById(product.id).discount) / 1)
+  //   return updateSum
+  // }, 0)
 
-  console.log('nknl;bnm,./bnm,.gbhnjmk,l.;/')
   return (
     <div className="d-flex justify-content-center flex-column">
       {!cart[0]
@@ -114,8 +122,7 @@ export function Basket() {
           <input
             id="select_all"
             type="checkbox"
-            checked={isAllCardPicked()}
-            // onChange={pickAllProductsHandler}
+            onChange={selectAllProductsHandler}
           />
           <label htmlFor="select_all">Выделить все</label>
           <div className={basketItemStyle.left}>
@@ -151,7 +158,7 @@ export function Basket() {
             <div className={basketItemStyle.rightInner}>
               <h7>
                 Сумма:
-                {calculateSum()}
+                {/* {calculateSum()} */}
               </h7>
               <h7>
                 Скидка:

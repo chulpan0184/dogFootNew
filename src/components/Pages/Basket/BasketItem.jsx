@@ -3,9 +3,8 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  changeIsPickProduct, deleteProduct, addNewProduct, getAllCartProductsSelector, productIncrement, productDecrement,
+  changeIsPickProduct, deleteProduct, getAllCartProductsSelector, productIncrement, productDecrement, chekAllProduct, nonChekAllProduct,
 } from '../../../redux/slices/cartSlice'
-// import { counterProductsSelector, productDecrement, productIncrement } from '../../../redux/slices/counterSlice'
 import basketitemSyle from './basketitem.module.css'
 
 export function BasketItem({
@@ -18,34 +17,9 @@ export function BasketItem({
 
   const discountPrise = price * ((100 - discount) / 100)
 
-  const moveToCartHandler = () => {
-    dispatch(addNewProduct(id))
-  }
-
   const removeFromCartHandler = () => {
     dispatch(deleteProduct(id))
   }
-
-  // const isInCart = (productsListId) => cart.find((product) => product.id === productsListId)
-  // console.log(cart)
-
-  // const changeStatusCheckbox = () => {
-  //   const target = Object.keys(cart).find((currentID) => currentID === id)
-  //   dispatch(changeIsPickProduct(target))
-  // }
-  // const priceRorStock = price * count
-  // const discountpriceForStock = discountPrise * count
-
-  // const deleteProductHandler = () => {
-  //   console.log('bjbkn')
-  //   console.log({ id })
-  //   dispatch(deleteProduct(id))
-  // }
-
-  // const moveToCartHandler = () => {
-  //   console.log({ id })
-  //   dispatch(addNewProduct(id))
-  // }
 
   const selectProductHandler = () => {
     dispatch(changeIsPickProduct(id))
@@ -131,12 +105,29 @@ export function BasketItem({
           </button>
           <input
             type="checkbox"
-            onChange={changeIsPickProduct}
             checked={isChecked}
-            // onChange={selectProductHandler}
+            onChange={selectProductHandler}
           />
         </div>
       </div>
     </div>
   )
 }
+
+// const changeStatusCheckbox = () => {
+//   const target = Object.keys(cart).find((currentID) => currentID === id)
+//   dispatch(changeIsPickProduct(target))
+// }
+// const priceRorStock = price * count
+// const discountpriceForStock = discountPrise * count
+
+// const deleteProductHandler = () => {
+//   console.log('bjbkn')
+//   console.log({ id })
+//   dispatch(deleteProduct(id))
+// }
+
+// const moveToCartHandler = () => {
+//   console.log({ id })
+//   dispatch(addNewProduct(id))
+// }
