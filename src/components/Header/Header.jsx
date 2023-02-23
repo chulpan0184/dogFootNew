@@ -19,7 +19,6 @@ function Header() {
 
   const cart = useSelector(getAllCartProductsSelector)
   const countBasket = Object.keys(cart).length
-  console.log({ countBasket })
 
   return (
     <header className={headerStyles.wr}>
@@ -33,20 +32,13 @@ function Header() {
           </li>
           <li>
             <Search />
-            {/* <button className={headerStyles.button} type="submit">
-              <img className="img__serch" src={serch} alt="serch" />
-            </button> */}
           </li>
-          {/* <li>
-            <input type="text" src={serch} placeholder="serch..." />
-          </li> */}
           <li>
             <NavLink
               className={headerStyles.basketNavLink}
-              // to={token ? '/basket' : 'Signin'}
               to="/basket"
             >
-              Basket
+              Корзина
               <div className={headerStyles.basketCounter}>{countBasket}</div>
             </NavLink>
           </li>
@@ -56,7 +48,7 @@ function Header() {
               className={({ isActive }) => classNames({ [headerStyles.activLink]: isActive })}
               to="Signin"
             >
-              Signout
+              Выйти
             </NavLink>
           </li>
           <li>
@@ -66,9 +58,8 @@ function Header() {
                 [headerStyles.activLink]: isActive,
               })}
               to="Signin"
-              // to={token ? 'products' : 'Signin'}
             >
-              Signin
+              Войти
             </NavLink>
           </li>
           <li>
@@ -76,16 +67,15 @@ function Header() {
               className={({ isActive }) => classNames({ [headerStyles.activLink]: isActive })}
               to="/signup"
             >
-              Signup
+              Регистрация
             </NavLink>
           </li>
           <li>
             <NavLink
               className={({ isActive }) => classNames({ [headerStyles.activLink]: isActive })}
               to="/products"
-              // to={token ? '/products' : 'Signin'}
             >
-              Products
+              Товары
             </NavLink>
           </li>
         </ul>
@@ -94,17 +84,3 @@ function Header() {
   )
 }
 export const HeaderMemo = memo(Header)
-
-// eslint-disable-next-line no-undef
-// const search = useSelector(getSearchSelector)
-// const {
-//   data, isLoading, isError, error, refetch,
-// } = useQuery({
-//   // eslint-disable-next-line no-undef
-//   queryKey: getQueryKey(search),
-//   queryFn: () => dogFoodApi.getAllProducts(search),
-//   enabled: (token !== undefined) && (token !== ''),
-// })
-// console.log({
-//   data, isLoading, isError, error, refetch,
-// })

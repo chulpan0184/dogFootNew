@@ -38,23 +38,27 @@ export function Signup() {
   // }
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={createSignupFormValidationSchema}
-      onSubmit={submitHandler}
-    >
-      <Form>
-        <Field name="email" placeholder="Email" type="email" />
-        <ErrorMessage component="p" className="error" name="email" />
+    <>
+      <h3>Зарегистрируйтесь</h3>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={createSignupFormValidationSchema}
+        onSubmit={submitHandler}
+      >
+        <Form>
+          <Field name="email" placeholder="Email" type="email" />
+          <ErrorMessage component="p" className="error" name="email" />
 
-        <Field name="group" placeholder="sm9" type="text" />
-        <ErrorMessage component="p" className="error" name="group" />
+          <Field name="group" placeholder="sm9" type="text" />
+          <ErrorMessage component="p" className="error" name="group" />
 
-        <Field name="password" placeholder="password" type="password" />
-        <ErrorMessage component="p" className="error" name="password" />
+          <Field name="password" placeholder="password" type="password" />
+          <ErrorMessage component="p" className="error" name="password" />
 
-        <button type="submit">Submit</button>
-      </Form>
-    </Formik>
+          <button type="submit">Submit</button>
+        </Form>
+      </Formik>
+    </>
+
   )
 }

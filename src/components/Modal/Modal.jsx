@@ -4,8 +4,6 @@ import styles from './Modal.module.css'
 
 function ModalInner({ closeDeleteModalHandler, children }) {
   useEffect(() => {
-    console.log('asdfkjasdlkfj')
-
     const closeModalByEscape = (e) => {
       if (e.key === 'Escape') {
         closeDeleteModalHandler()

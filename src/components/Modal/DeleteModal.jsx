@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-// import { classNames } from 'classnames'
 import { deleteProduct } from '../../redux/slices/cartSlice'
 import { Modal } from './Modal'
 import styles from './Modal.module.css'
@@ -12,7 +11,6 @@ export function DeleteCartModal({
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
-  //  const [input, setInput] = useState('')
   const closeDeleteModalHandler = () => {
     setIsDeleteModalOpen(false)
   }

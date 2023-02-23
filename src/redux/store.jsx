@@ -17,4 +17,3 @@ export const store = configureStore({
 })
 
 store.subscribe(() => window.localStorage.setItem(REDUX_LS_KEY, JSON.stringify(store.getState())))
-// store.subscribe(() => window.localStorage.setItem(REDUX_LS_KEY_COUNT, store.getState()))

@@ -35,21 +35,25 @@ function Signin() {
   }
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={createSigninFormValidationSchema}
-      onSubmit={submitHandler}
-    >
-      <Form>
-        <Field name="email" placeholder="Email" type="email" />
-        <ErrorMessage component="p" className="error" name="email" />
+    <>
+      <h3>Введите логин и пароль</h3>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={createSigninFormValidationSchema}
+        onSubmit={submitHandler}
+      >
+        <Form>
+          <Field name="email" placeholder="Email" type="email" />
+          <ErrorMessage component="p" className="error" name="email" />
 
-        <Field name="password" placeholder="password" type="password" />
-        <ErrorMessage component="p" className="error" name="password" />
+          <Field name="password" placeholder="password" type="password" />
+          <ErrorMessage component="p" className="error" name="password" />
 
-        <button type="submit">Submit</button>
-      </Form>
-    </Formik>
+          <button type="submit">Submit</button>
+        </Form>
+      </Formik>
+    </>
+
   )
 }
 

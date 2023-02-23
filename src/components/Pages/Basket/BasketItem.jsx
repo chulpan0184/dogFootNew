@@ -4,7 +4,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
 import {
-  changeIsPickProduct, deleteProduct, getAllCartProductsSelector, productIncrement, productDecrement, chekAllProduct, nonChekAllProduct,
+  changeIsPickProduct, getAllCartProductsSelector, productIncrement, productDecrement,
 } from '../../../redux/slices/cartSlice'
 import basketitemSyle from './basketitem.module.css'
 import { DeleteCartModal } from '../../Modal/DeleteModal'
@@ -125,21 +125,3 @@ export function BasketItem({
     </>
   )
 }
-
-// const changeStatusCheckbox = () => {
-//   const target = Object.keys(cart).find((currentID) => currentID === id)
-//   dispatch(changeIsPickProduct(target))
-// }
-// const priceRorStock = price * count
-// const discountpriceForStock = discountPrise * count
-
-// const deleteProductHandler = () => {
-//   console.log('bjbkn')
-//   console.log({ id })
-//   dispatch(deleteProduct(id))
-// }
-
-// const moveToCartHandler = () => {
-//   console.log({ id })
-//   dispatch(addNewProduct(id))
-// }

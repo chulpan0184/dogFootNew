@@ -1,6 +1,6 @@
 /* eslint-disable linebreak-style */
 // eslint-disable-next-line import/named
-// import { Loader } from '../louder/Louder'
+import { Loader } from '../louder/Louder'
 
 export const withQuery = (WrappedComponent) => function ({
   isLoading, isError, error, refetch, ...rest
@@ -26,7 +26,7 @@ export const withQuery = (WrappedComponent) => function ({
     )
   }
 
-  // if (isLoading) return <Loader />
+  if (isLoading) return <Loader />
 
   return <WrappedComponent {...rest} />
 }
