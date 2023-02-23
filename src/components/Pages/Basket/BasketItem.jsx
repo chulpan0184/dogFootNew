@@ -2,15 +2,21 @@
 /* eslint-disable max-len */
 /* eslint-disable jsx-a11y/alt-text */
 import { useDispatch, useSelector } from 'react-redux'
+import { useState } from 'react'
 import {
   changeIsPickProduct, deleteProduct, getAllCartProductsSelector, productIncrement, productDecrement, chekAllProduct, nonChekAllProduct,
 } from '../../../redux/slices/cartSlice'
 import basketitemSyle from './basketitem.module.css'
+import { DeleteCartModal } from '../../Modals/DeleteModal.jsx/DeleteModal'
 
 export function BasketItem({
 
   pictures, name, price, id, description, discount, wight, stock, count, isChecked,
 }) {
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const openDeleteModalHandler = () => {
+    setIsDeleteModalOpen(true)
+  }
   const cart = useSelector(getAllCartProductsSelector)
 
   const dispatch = useDispatch()
@@ -112,6 +118,11 @@ export function BasketItem({
           />
         </div>
       </div>
+      <DeleteCartModal
+        isOpen={isDeleteModalOpen}
+        setIsDeleteModalOpen={setIsDeleteModalOpen}
+        id={id}
+      />
     </div>
   )
 }

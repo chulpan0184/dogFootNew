@@ -4,7 +4,7 @@
 /* eslint-disable no-unused-vars */
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate, Link } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Louder } from '../../louder/Louder'
 import { dogFoodApi } from '../../../api/DogFoodApi'
@@ -95,7 +95,11 @@ export function Basket() {
     <div className="d-flex justify-content-center flex-column">
       {!cart[0]
       && (
-      <h3>Карзина пуста</h3>
+        <>
+          <h3>Карзина пуста</h3>
+          <Link to="/products">К покупкам</Link>
+          <Link to="/">На главную страницу</Link>
+        </>
       )}
       {products[0] && (
       <ul>
@@ -114,7 +118,7 @@ export function Basket() {
             </button>
           </div>
         </div>
-        <div className="d-flex flex-row" style={{ flexWrap: 'nowrap', alignItems: 'flex-start' }}>
+        <div className="d-flex flex-row" style={{ flexWrap: 'nowrap', alignItems: 'flex-start', gap: '20px' }}>
           <div className="d-flex justify-content-center flex-row" style={{ flexWrap: 'wrap', gap: '16px', alignItems: 'center' }}>
             {products.map((product) => (
               <BasketItem
@@ -149,7 +153,7 @@ export function Basket() {
                 {' '}
                 руб.
               </h7>
-              <p>
+              <p style={{ color: 'darkgreen' }}>
                 К оплате:
                 {' '}
                 <span style={{ fontWeight: '700' }}>

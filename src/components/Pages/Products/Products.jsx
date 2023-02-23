@@ -67,7 +67,7 @@ export function Products() {
     )
   }
 
-  const { products } = data
+  const products = data
 
   return (
     <>
@@ -90,7 +90,7 @@ export function Products() {
         </button>
       </div>
       <h1 className={productsStyle.h1}>Products</h1>
-      {products && (
+      {products[0] && (
         <div className={productsStyle.wrap}>
           {products.map((product) => (
             <ProductsItem
