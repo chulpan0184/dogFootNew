@@ -4,7 +4,7 @@
 /* eslint-disable no-unused-vars */
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate, Link } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Louder } from '../../louder/Louder'
 import { dogFoodApi } from '../../../api/DogFoodApi'
@@ -73,7 +73,7 @@ export function Basket() {
     return allCheckedProducts
   }
   const selectAllProductsHandler = () => {
-    if (!isAllChecked) dispatch(chekAllProduct())
+    if (!isAllChecked()) dispatch(chekAllProduct())
     else dispatch(nonChekAllProduct())
   }
 

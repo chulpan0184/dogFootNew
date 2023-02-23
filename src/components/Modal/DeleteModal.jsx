@@ -1,7 +1,9 @@
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { deleteProduct } from '../../../redux/slices/cartSlice'
-import { Modal } from '../../Modal/Modal'
+// import { classNames } from 'classnames'
+import { deleteProduct } from '../../redux/slices/cartSlice'
+import { Modal } from './Modal'
+import styles from './Modal.module.css'
 
 export function DeleteCartModal({
 
@@ -14,6 +16,14 @@ export function DeleteCartModal({
   const closeDeleteModalHandler = () => {
     setIsDeleteModalOpen(false)
   }
+
+  const closeModalByEscape = (e) => {
+    if (e.key === 'Escape') {
+      closeDeleteModalHandler()
+    }
+  }
+
+  document.addEventListener('keydown', closeModalByEscape)
 
   const removeFromCartHandler = () => {
     dispatch(deleteProduct(id))
@@ -38,6 +48,13 @@ export function DeleteCartModal({
           className="btn btn-danger"
         >
           Delete
+        </button>
+        <button
+          type="button"
+          className={styles.closeBtn}
+          onClick={closeDeleteModalHandler}
+        >
+          X
         </button>
       </div>
     </Modal>

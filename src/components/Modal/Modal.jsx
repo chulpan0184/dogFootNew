@@ -1,4 +1,3 @@
-import classNames from 'classnames'
 import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import styles from './Modal.module.css'
@@ -12,31 +11,13 @@ function ModalInner({ closeDeleteModalHandler, children }) {
         closeDeleteModalHandler()
       }
     }
-
-    document.addEventListener('keydown', closeModalByEscape)
-
     return () => {
-      console.log('UseEffect Return')
       document.removeEventListener('keydown', closeModalByEscape)
     }
   }, [])
 
-  const closeModalByClickX = () => closeDeleteModalHandler()
-
   return (
     <div className={styles.modalInner}>
-      <button
-        type="button"
-        className={classNames(
-          'btn',
-          'btn-primary',
-          'btn-sm',
-          styles.closeBtn,
-        )}
-        onClick={closeModalByClickX}
-      >
-        X
-      </button>
       {children}
     </div>
   )
