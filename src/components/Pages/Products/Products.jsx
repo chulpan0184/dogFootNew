@@ -9,8 +9,7 @@ import { useEffect } from 'react'
 // import { dogFoodApi } from '../../../api/DogFoodApi'
 // import { AppTokenContext } from '../../contexts/AppTokenContextProvider'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { Louder } from '../../louder/Louder'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { ProductsItem } from './ProductsItem/ProductsItem'
 // import { withQuery } from '../../HOCs/withQuery'
 import { dogFoodApi } from '../../../api/DogFoodApi'
@@ -19,13 +18,11 @@ import { getQuerySearchKey } from '../../../utils'
 import { getSearchSelector } from '../../../redux/slices/filterSlice'
 import { getTokenSelector } from '../../../redux/slices/tokenSlice'
 import { clearBasket } from '../../../redux/slices/cartSlice'
-// import { withQuery } from '../../HOCs/withQuery'
+import { withQuery } from '../../HOCs/withQuery'
+import { FILTER_QUERY_NAME, getFilteredProducts } from '../../Filters/constantsFilter'
 
-// function ProductsInner({ data })
-
-// const ProductsInnerWithQuery = withQuery(ProductsInner)
-
-export function Products() {
+function ProductsInner({ data }) {
+  const products = data
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const addBasketProductsHendler = () => {
@@ -36,43 +33,8 @@ export function Products() {
     dispatch(clearBasket())
   }
 
-  const token = useSelector(getTokenSelector)
-  useEffect(
-    () => {
-      if (!token) {
-        navigate('/signin')
-      }
-    },
-    [token],
-  )
-
-  // const { basketCounter } = useSelector((state) => state)
-  // const dispatch = useDispatch()
-  const search = useSelector(getSearchSelector)
-  const {
-    data, isLoading, isError, error,
-  } = useQuery({
-    queryKey: getQuerySearchKey(search),
-    queryFn: () => dogFoodApi.getAllProducts(search, token),
-    enabled: (token !== undefined) && (token !== ''),
-  })
-
-  if (isLoading) return <Louder />
-
-  if (isError) {
-    return (
-      <p>
-        Произошла ошибка:
-        {' '}
-        {error.message}
-      </p>
-    )
-  }
-
-  const products = data
-
   return (
-    <>
+    <div className="d-flex flex-column">
       <div className={productsStyle.header}>
         <div className="d-flex  justify-content-center flex-row">
           <h3>Каталог товаров</h3>
@@ -93,16 +55,11 @@ export function Products() {
             style={{ minWidth:'160px', minHeight:'30px' }}
           >
             Перейти в карзину
-            {' '}
-            {/* {basketCounter} */}
           </button>
-
         </div>
-
       </div>
-
-      <h1 className={productsStyle.h1}>Products</h1>
-      {products[0] && (
+      <div>
+        {products[0] && (
         <div className={productsStyle.wrap}>
           {products.map((product) => (
             <ProductsItem
@@ -118,19 +75,46 @@ export function Products() {
             />
           ))}
         </div>
-      )}
-    </>
+        )}
+        {!products[0] && products && (
+        <h5 className="card-header">По вашему запросу ничего не найдено</h5>
+        )}
+      </div>
+    </div>
+
+  )
+}
+const ProductsInnerWithQuery = withQuery(ProductsInner)
+
+export function Products() {
+  const token = useSelector(getTokenSelector)
+  const [searchParams] = useSearchParams()
+  const currentFilterNameFromQuery = searchParams.get(FILTER_QUERY_NAME)
+  const navigate = useNavigate()
+  useEffect(
+    () => {
+      if (!token) {
+        navigate('/signin')
+      }
+    },
+    [token],
   )
 
-  // return <ProductsInnerWithQuery data={data} />
-}
+  const search = useSelector(getSearchSelector)
+  const {
+    data = [], isLoading, isError, error, refetch,
+  } = useQuery({
+    queryKey: getQuerySearchKey(search),
+    queryFn: () => dogFoodApi.getAllProducts(search, token),
+    enabled: (token !== undefined) && (token !== ''),
+  })
 
-//   const res = await fetch(`${this.baseUrl}/products`, {
-//     method: 'GET',
-//     headers: {
-//       authorization: `Bearer ${this.token}`,
-//     },
-//   })
-// Обработка ошибок
-//   console.log(res)
-// }
+  let products = data
+
+  if (currentFilterNameFromQuery) {
+    products = getFilteredProducts(data, currentFilterNameFromQuery)
+  }
+
+  return <ProductsInnerWithQuery data={products} isLoading={isLoading} isError={isError} refetch={refetch} error={error} />
+}
+export default Products

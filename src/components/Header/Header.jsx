@@ -7,6 +7,7 @@ import headerStyles from './header.module.css'
 import Search from '../Search/Search'
 import { getTokenSelector, getToken } from '../../redux/slices/tokenSlice'
 import { getAllCartProductsSelector } from '../../redux/slices/cartSlice'
+import { Filters } from '../Filters/Filters'
 
 function Header() {
   const token = useSelector(getTokenSelector)
@@ -41,6 +42,9 @@ function Header() {
               Корзина
               <div className={headerStyles.basketCounter}>{countBasket}</div>
             </NavLink>
+          </li>
+          <li>
+            <Filters />
           </li>
           <li>
             <NavLink

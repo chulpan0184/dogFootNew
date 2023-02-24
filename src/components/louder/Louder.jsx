@@ -1,7 +1,6 @@
-/* eslint-disable linebreak-style */
 import LoaderStyles from './louder.module.css'
 
-export function Louder() {
+function Louder() {
   return (
     <div className="d-flex justify-content-center">
       <div className={LoaderStyles['lds-ripple']}>
@@ -11,3 +10,5 @@ export function Louder() {
     </div>
   )
 }
+
+export default Louder
