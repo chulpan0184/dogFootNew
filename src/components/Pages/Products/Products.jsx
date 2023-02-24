@@ -1,3 +1,5 @@
+/* eslint-disable key-spacing */
+/* eslint-disable max-len */
 /* eslint-disable no-undef */
 /* eslint-disable linebreak-style */
 /* eslint-disable no-lone-blocks */
@@ -71,24 +73,34 @@ export function Products() {
 
   return (
     <>
-      <div className="d-flex flex-row" style={{ justifyContent: 'space-around' }}>
-        <button
-          onClick={clearBasketHandler}
-          type="button"
-          className="btn btn-danger"
-        >
-          Очистить карзину
-        </button>
-        <button
-          onClick={addBasketProductsHendler}
-          className="btn btn-primary"
-          type="button"
-        >
-          Перейти в карзину
-          {' '}
-          {/* {basketCounter} */}
-        </button>
+      <div className={productsStyle.header}>
+        <div className="d-flex  justify-content-center flex-row">
+          <h3>Каталог товаров</h3>
+        </div>
+        <div className="d-flex text-center flex-row" style={{ justifyContent:'space-around' }}>
+          <button
+            onClick={clearBasketHandler}
+            type="button"
+            className="btn btn-danger p-1"
+            style={{ minWidth:'160px', minHeight:'30px' }}
+          >
+            Очистить карзину
+          </button>
+          <button
+            onClick={addBasketProductsHendler}
+            className="btn btn-primary p-1"
+            type="button"
+            style={{ minWidth:'160px', minHeight:'30px' }}
+          >
+            Перейти в карзину
+            {' '}
+            {/* {basketCounter} */}
+          </button>
+
+        </div>
+
       </div>
+
       <h1 className={productsStyle.h1}>Products</h1>
       {products[0] && (
         <div className={productsStyle.wrap}>

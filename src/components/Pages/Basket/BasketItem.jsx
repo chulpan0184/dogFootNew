@@ -43,26 +43,31 @@ export function BasketItem({
               display: 'flex',
               position: 'relative',
               justifyContent: 'center',
-              minHeight: '40px',
+              minHeight: '50px',
             }}
             >
+              <input
+                type="checkbox"
+                checked={isChecked}
+                onChange={selectProductHandler}
+              />
               <h6>{name}</h6>
             </div>
             <div style={{
               display: 'flex',
               position: 'relative',
               justifyContent: 'center',
-              marginBottom: '2px',
+              marginBottom: '5px',
             }}
             >
-              <img style={{ borderRadius: '8px' }} width="250px" height="160px" src={pictures} />
+              <img style={{ borderRadius: '8px' }} width="220x" height="110px" src={pictures} />
             </div>
             <p>
               Описание:
               {' '}
               {description}
             </p>
-            <div className="d-flex flex-derection-row gap-2">
+            <div className="d-flex flex-derection-row">
               <span> цена:</span>
               <s>
                 {' '}
@@ -101,7 +106,7 @@ export function BasketItem({
               {discount}
               %
             </p>
-            <p className="mb-1">
+            <p>
               Вес:
               {' '}
               {wight}
@@ -109,11 +114,6 @@ export function BasketItem({
             <button className="btn btn-primary mb-3" type="button" onClick={openDeleteModalHandler}>
               Удалить
             </button>
-            <input
-              type="checkbox"
-              checked={isChecked}
-              onChange={selectProductHandler}
-            />
           </div>
         </div>
       </div>

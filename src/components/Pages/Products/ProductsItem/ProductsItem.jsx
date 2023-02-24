@@ -45,7 +45,6 @@ export function ProductsItem({
     <div className={productsitemStyle.wrapper}>
       <div className={productsitemStyle.card}>
         <div className={productsitemStyle.cardWr}>
-          <p>{products}</p>
           <div style={{
             display: 'flex',
             position: 'relative',
@@ -59,12 +58,12 @@ export function ProductsItem({
             display: 'flex',
             position: 'relative',
             justifyContent: 'center',
-            marginBottom: '20px',
+            marginBottom: '5px',
           }}
           >
-            <img style={{ borderRadius: '8px' }} width="250px" height="150px" src={pictures} />
+            <img style={{ borderRadius: '8px' }} width="240px" height="130px" src={pictures} />
           </div>
-          <div className="d-flex flex-derection-row gap-2">
+          <div className="d-flex flex-derection-row gap-1">
             <span> цена:</span>
             <s>
               {' '}
@@ -93,16 +92,19 @@ export function ProductsItem({
             {discount}
             %
           </p>
-          <p className="mb-4">
+          <p className="mb-2">
             Вес:
             {' '}
             {wight}
           </p>
-          <button className="btn btn-primary mb-3" type="button" onClick={isInCart(id) ? removeFromCartHandler : moveToCartHandler}>
+          <button className="btn btn-primary p-1" style={{ minWidth: '200px' }} type="button" onClick={isInCart(id) ? removeFromCartHandler : moveToCartHandler}>
             {isInCart(id) ? 'В корзине' : 'Добавить в карзину'}
           </button>
+
         </div>
+
       </div>
+
     </div>
 
   )

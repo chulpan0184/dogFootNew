@@ -1,6 +1,11 @@
 .wr{
     background:lightsalmon;
     font-weight:500;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 16%;
+    z-index: 10;
 }
 
 .menu{

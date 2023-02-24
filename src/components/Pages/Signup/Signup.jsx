@@ -5,6 +5,7 @@ import {
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { createSignupFormValidationSchema } from '../validatorSignup'
+import styleSignUp from './styleSignUp.module.css'
 // import { prepareData } from './helpers/utils'
 
 const initialValues = {
@@ -38,27 +39,28 @@ export function Signup() {
   // }
 
   return (
-    <>
+    <div className={styleSignUp.wr}>
       <h3>Зарегистрируйтесь</h3>
       <Formik
         initialValues={initialValues}
         validationSchema={createSignupFormValidationSchema}
         onSubmit={submitHandler}
       >
-        <Form>
-          <Field name="email" placeholder="Email" type="email" />
+        <Form className="d-flex  justify-content-center text-centr flex-row">
+          <Field className="m-2" name="email" placeholder="Email" type="email" />
           <ErrorMessage component="p" className="error" name="email" />
 
-          <Field name="group" placeholder="sm9" type="text" />
+          <Field className="m-2" name="group" placeholder="sm9" type="text" />
           <ErrorMessage component="p" className="error" name="group" />
 
-          <Field name="password" placeholder="password" type="password" />
+          <Field className="m-2" name="password" placeholder="password" type="password" />
           <ErrorMessage component="p" className="error" name="password" />
 
-          <button type="submit">Submit</button>
+          <button className="btn btn-primary m-2" type="submit">Отправить</button>
         </Form>
       </Formik>
-    </>
+
+    </div>
 
   )
 }

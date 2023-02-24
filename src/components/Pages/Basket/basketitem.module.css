@@ -2,7 +2,8 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    color: black; 
+
+    color: black;
 }
 
 .card {
@@ -10,8 +11,8 @@
     display: flex;
     flex-direction: column;
    
-    height: 400px;
-    width: 300px;
+    height: 340px;
+    width: 260px;
     padding: 5px;
     border-radius: 8px;
     text-align: center;
@@ -21,22 +22,20 @@
     margin-bottom: 8px;
 }
 
-.cardWr{
+/* .cardWr{
     position: relative;
     display: flex;
     flex-direction: column;
     
-}
+} */
 .card p {
-    position: relative;
-    display: flex;
     text-align: left;
     margin: 0;
 }
 
 
 
- @media (max-width: 1100px) {
+ /* @media (max-width: 1100px) {
     .wrapper{
         padding: 50px;
         grid-template-columns: repeat(3, 1fr);
@@ -55,4 +54,4 @@
     .wrapper{
         grid-template-columns: 1fr;
     }
-} 
+}  */

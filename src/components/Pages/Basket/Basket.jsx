@@ -10,7 +10,7 @@ import { Louder } from '../../louder/Louder'
 import { dogFoodApi } from '../../../api/DogFoodApi'
 import { getQueryCartKey } from '../../../utils'
 import { getTokenSelector } from '../../../redux/slices/tokenSlice'
-import basketItemStyle from './basketItemStyle.module.css'
+import basketStyle from './basketStyle.module.css'
 import { BasketItem } from './BasketItem'
 import {
   chekAllProduct, clearBasket, getAllCartProductsSelector, nonChekAllProduct,
@@ -91,7 +91,7 @@ export function Basket() {
   const totalSumAllCartProducts = sumAllCartProducts() - sumDidscauntAllCartProducts()
 
   return (
-    <div className="d-flex justify-content-center flex-column">
+    <div className="d-flex justify-content-center flex-column" style={{ marginTop: '200px' }}>
       {!cart[0]
       && (
         <>
@@ -102,23 +102,27 @@ export function Basket() {
       )}
       {products[0] && (
       <ul>
-        <div className="d-flex flex-row" style={{ marginBottom: '8px' }}>
-          <input
-            id="select_all"
-            type="checkbox"
-            onChange={selectAllProductsHandler}
-          />
-          <label htmlFor="select_all">Выделить все</label>
-          <div className={basketItemStyle.left}>
+        <div className={basketStyle.header}>
+          <h3 className="text-center">Товары в карзине</h3>
+          <div className="d-flex flex-row" style={{ justifyContent: 'space-between', paddingLeft: '5vh', paddingRight: '5vh' }}>
+            <div className="d-flex flex-row">
+              <input
+                id="select_all"
+                type="checkbox"
+                checked={isAllChecked}
+                onChange={selectAllProductsHandler}
+              />
+              <label htmlFor="select_all">Выделить все</label>
 
-            <h5 className="text-center">Товары в карзине</h5>
-            <button type="button" className="btn btn-danger" onClick={clearBasketHandler}>
+            </div>
+
+            <button type="button" className="btn btn-danger" style={{ minWidth: '160px', minHeight: '30px' }} onClick={clearBasketHandler}>
               Очистить карзину
             </button>
           </div>
         </div>
-        <div className="d-flex flex-row" style={{ flexWrap: 'nowrap', alignItems: 'flex-start', gap: '20px' }}>
-          <div className="d-flex justify-content-center flex-row" style={{ flexWrap: 'wrap', gap: '16px', alignItems: 'center' }}>
+        <div className="d-flex flex-row gap-2" style={{ flexWrap: 'nowrap', justifyContent: 'space-around' }}>
+          <div className={basketStyle.left}>
             {products.map((product) => (
               <BasketItem
                 key={product._id}
@@ -135,9 +139,9 @@ export function Basket() {
               />
             ))}
           </div>
-          <div className={basketItemStyle.right}>
+          <div className={basketStyle.right}>
             <h6 className="text-center p-1">Информация о заказе</h6>
-            <div className={basketItemStyle.rightInner}>
+            <div className={basketStyle.rightInner}>
               <h7>
                 Сумма:
                 {' '}
@@ -162,13 +166,17 @@ export function Basket() {
                   руб.
                 </span>
               </p>
-              <button type="button" className="btn btn-primary">
+            </div>
+            <div className="d-flex justify-content-center flex-row">
+              <button type="button" className="btn btn-primary" style={{ minWidth: '160px', minHeight: '30px' }}>
                 Перейти к оплате
               </button>
             </div>
           </div>
 
         </div>
+
+        <div className="d-flex flex-row" style={{ flexWrap: 'nowrap', alignItems: 'flex-start', gap: '2px' }} />
 
       </ul>
       )}

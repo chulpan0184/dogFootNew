@@ -7,6 +7,7 @@ function ModalInner({ closeDeleteModalHandler, children }) {
     const closeModalByEscape = (e) => {
       if (e.key === 'Escape') {
         closeDeleteModalHandler()
+        e.target.blur()
       }
     }
     return () => {

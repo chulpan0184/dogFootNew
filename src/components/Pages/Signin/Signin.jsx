@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { createSigninFormValidationSchema } from './validatorSignin'
 import { dogFoodApi } from '../../../api/DogFoodApi'
 import { getToken, getTokenSelector } from '../../../redux/slices/tokenSlice'
+import styleSignIn from './styleSignIn.module.css'
 // import { AppTokenContext } from '../../contexts/AppTokenContextProvider'
 
 const initialValues = {
@@ -35,24 +36,25 @@ function Signin() {
   }
 
   return (
-    <>
+    <div className={styleSignIn.wr}>
       <h3>Введите логин и пароль</h3>
       <Formik
         initialValues={initialValues}
         validationSchema={createSigninFormValidationSchema}
         onSubmit={submitHandler}
       >
-        <Form>
-          <Field name="email" placeholder="Email" type="email" />
+        <Form className="d-flex  justify-content-center text-centr flex-row">
+          <Field className="m-2" name="email" placeholder="Email" type="email" />
           <ErrorMessage component="p" className="error" name="email" />
 
-          <Field name="password" placeholder="password" type="password" />
+          <Field className="m-2" name="password" placeholder="password" type="password" />
           <ErrorMessage component="p" className="error" name="password" />
 
-          <button type="submit">Submit</button>
+          <button className="btn btn-primary m-2" type="submit">Отправить</button>
         </Form>
       </Formik>
-    </>
+
+    </div>
 
   )
 }
