@@ -80,15 +80,23 @@ class DogFoodApi {
     return res.json()
   }
 
-  async getProductById(ProductId) {
-    this.checkToken()
+  async getProductById(ProductId, token) {
+    this.checkToken(token)
     const res = await fetch(`${this.baseUrl}/products/${ProductId}`, {
       headers: {
-        authorization: this.getAuthorizationHeader(),
+        authorization: this.getAuthorizationHeader(token),
       },
     })
-    // Обработка ошибок
-    console.log(res)
+    if (res.status === 401) {
+      throw new Error(
+        `Авторизация не пройдена непраильный логин или пароль. Status: ${res.status}`,
+      )
+    } if (res.status === 404) {
+      throw new Error(`Авторизация не пройдена пользователь не найден. Status: ${res.status}`)
+    } if (res.status >= 300) {
+      throw new Error(`Ошибка. Status: ${res.status}`)
+    }
+    return res.json()
   }
 }
 export const dogFoodApi = new DogFoodApi({ baseUrl: 'https://api.react-learning.ru' })

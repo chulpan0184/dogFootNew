@@ -6,17 +6,18 @@
 // import { useDispatch } from 'react-redux'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { Navigate } from 'react-router-dom'
+import { Navigate, Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import { addNewProduct, deleteProduct, getAllCartProductsSelector } from '../../../../redux/slices/cartSlice'
-
 import productsitemStyle from './productsitem.module.css'
 import { getTokenSelector } from '../../../../redux/slices/tokenSlice'
+import { addNewProductFavour, getAllFavouritesProductsSelector } from '../../../../redux/slices/favouriteSlice'
 
 export function ProductsItem({
-  name, products, price, pictures, wight, id, discount, isPicked, count, stock,
+  name, price, pictures, wight, id, discount, stock,
 }) {
   const cart = useSelector(getAllCartProductsSelector)
+  const favourites = useSelector(getAllFavouritesProductsSelector)
   const token = useSelector(getTokenSelector)
 
   useEffect(
@@ -35,6 +36,15 @@ export function ProductsItem({
     dispatch(addNewProduct(id))
   }
 
+  const moveToFavouriteHandler = () => {
+    dispatch(addNewProductFavour(id))
+  }
+
+  // const dispatch = useDispatch()
+  // const moveToCartHandler = () => {
+  //   dispatch(addNewProduct(id))
+  // }
+
   const removeFromCartHandler = () => {
     dispatch(deleteProduct(id))
   }
@@ -48,17 +58,25 @@ export function ProductsItem({
           <div style={{
             display: 'flex',
             position: 'relative',
-            justifyContent: 'center',
+            justifyContent: 'space-between',
             minHeight: '50px',
           }}
           >
             <h6>{name}</h6>
+            <button
+              type="button"
+              onClick={moveToFavouriteHandler}
+              className="btn btn-outline-danger card__btn"
+            >
+              <i className="fa-regular fa-heart fa-lg" />
+            </button>
           </div>
           <div style={{
             display: 'flex',
             position: 'relative',
             justifyContent: 'center',
             marginBottom: '5px',
+            marginTop: '4px',
           }}
           >
             <img style={{ borderRadius: '8px' }} width="240px" height="130px" src={pictures} />
@@ -92,19 +110,19 @@ export function ProductsItem({
             {discount}
             %
           </p>
-          <p className="mb-2">
+          <p>
             Вес:
             {' '}
             {wight}
           </p>
-          <button className="btn btn-primary p-1" style={{ minWidth: '200px' }} type="button" onClick={isInCart(id) ? removeFromCartHandler : moveToCartHandler}>
-            {isInCart(id) ? 'В корзине' : 'Добавить в карзину'}
+          <button className="btn btn-primary p-1 mx-1" style={{ minWidth: '100px' }} type="button" onClick={isInCart(id) ? removeFromCartHandler : moveToCartHandler}>
+            {isInCart(id) ? 'В корзине' : 'Добавить'}
           </button>
-
+          <button className="btn btn btn-success p-1" style={{ minWidth: '100px' }} type="button">
+            Подробно
+          </button>
         </div>
-
       </div>
-
     </div>
 
   )

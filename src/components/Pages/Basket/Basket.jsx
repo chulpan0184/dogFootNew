@@ -3,7 +3,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import { useSelector, useDispatch } from 'react-redux'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link, useSearchParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import Louder from '../../louder/Louder'
@@ -15,51 +15,15 @@ import { BasketItem } from './BasketItem'
 import {
   chekAllProduct, clearBasket, getAllCartProductsSelector, nonChekAllProduct,
 } from '../../../redux/slices/cartSlice'
+import { FILTER_QUERY_NAME, getFilteredProducts } from '../../Filters/constantsFilter'
+import { Filters } from '../../Filters/Filters'
+import { withQuery } from '../../HOCs/withQuery'
 
-export function Basket() {
+function BasketInner({ data }) {
+  const products = data
   const cart = useSelector(getAllCartProductsSelector)
-  const token = useSelector(getTokenSelector)
-  const navigate = useNavigate()
   const dispatch = useDispatch()
-
-  useEffect( // useEffect Непускает в карзину без токена
-    () => {
-      if (!token) {
-        navigate('/signin')
-      }
-    },
-    [token],
-  )
-
-  const {
-    data = [], isLoading, isError, error,
-  } = useQuery({
-    queryKey: [getQueryCartKey(cart.lenght)],
-    queryFn: () => dogFoodApi.getProductsByIds(cart.map((product) => product.id), token),
-    keepPreviousData: true,
-    enabled: !!token,
-  })
-
-  if (isLoading) return <Louder />
-
-  if (isError) {
-    return (
-      <p>
-        Произошла ошибка:
-        {' '}
-        {error.message}
-      </p>
-    )
-  }
-
-  const products = cart.map((product) => {
-    const productFromBack = data.find((productBack) => productBack._id === product.id)
-    if (productFromBack) {
-      return { ...product, ...productFromBack }
-    }
-    return product
-  })
-
+  const navigate = useNavigate()
   const clearBasketHandler = () => {
     dispatch(clearBasket())
   }
@@ -91,7 +55,7 @@ export function Basket() {
   const totalSumAllCartProducts = sumAllCartProducts() - sumDidscauntAllCartProducts()
 
   return (
-    <div className="d-flex justify-content-center flex-column" style={{ marginTop: '200px' }}>
+    <div className="d-flex justify-content-center flex-column" style={{ marginTop: '180px' }}>
       {!cart[0]
       && (
         <>
@@ -102,6 +66,7 @@ export function Basket() {
       )}
       {products[0] && (
       <ul>
+        <div className="d-flex flex-row m-1" />
         <div className={basketStyle.header}>
           <h3 className="text-center">Товары в карзине</h3>
           <div className="d-flex flex-row" style={{ justifyContent: 'space-between', paddingLeft: '5vh', paddingRight: '5vh' }}>
@@ -113,7 +78,7 @@ export function Basket() {
                 onChange={selectAllProductsHandler}
               />
               <label htmlFor="select_all">Выделить все</label>
-
+              <Filters />
             </div>
 
             <button type="button" className="btn btn-danger" style={{ minWidth: '160px', minHeight: '30px' }} onClick={clearBasketHandler}>
@@ -183,3 +148,68 @@ export function Basket() {
     </div>
   )
 }
+
+const BasketInnerWithQuery = withQuery(BasketInner)
+
+export function Basket() {
+  const token = useSelector(getTokenSelector)
+  const cart = useSelector(getAllCartProductsSelector)
+  const [searchParams] = useSearchParams()
+  const currentFilterNameFromQuery = searchParams.get(FILTER_QUERY_NAME)
+  const navigate = useNavigate()
+  useEffect( // useEffect Непускает в карзину без токена
+    () => {
+      if (!token) {
+        navigate('/signin')
+      }
+    },
+    [token],
+  )
+  const {
+    data = [], isLoading, isError, error, refetch,
+  } = useQuery({
+    queryKey: [getQueryCartKey(cart.lenght)],
+    queryFn: () => dogFoodApi.getProductsByIds(cart.map((product) => product.id), token),
+    keepPreviousData: true,
+    enabled: !!token,
+  })
+
+  const products = cart.map((product) => {
+    const productFromBack = data.find((productBack) => productBack._id === product.id)
+    if (productFromBack) {
+      return { ...product, ...productFromBack }
+    }
+    return product
+  })
+  // if (currentFilterNameFromQuery) {
+  // products = getFilteredProducts(data, currentFilterNameFromQuery)
+  // }
+
+  return <BasketInnerWithQuery data={products} isLoading={isLoading} isError={isError} refetch={refetch} error={error} />
+}
+export default Basket
+// const searchBasketHandler = (e) => {
+//   const newFilterValue = e.target.value
+//   setSearchParams({
+//     ...Object.entries(searchParams.entries()),
+//     q: newFilterValue,
+//   })
+// }
+
+// if (isLoading) return <Louder />
+
+// if (isError) {
+//   return (
+//     <p>
+//       Произошла ошибка:
+//       {' '}
+//       {error.message}
+//     </p>
+//   )
+// }
+
+// let products = data
+
+// if (currentFilterNameFromQuery) {
+//   products = getFilteredProducts(data, currentFilterNameFromQuery)
+// }

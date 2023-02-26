@@ -6,6 +6,7 @@ export const initState = {
   filter: {
     search: '',
   },
+  favourites: [],
 }
 
 export function gitInitState() {

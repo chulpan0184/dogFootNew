@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { REDUX_LS_KEY } from './constants'
 import { gitInitState } from './initState'
 import { cartReducer } from './slices/cartSlice'
+import { favouriteReducer } from './slices/favouriteSlice'
 
 import { filterReducer } from './slices/filterSlice'
 import { tokenReducer } from './slices/tokenSlice'
@@ -11,6 +12,7 @@ export const store = configureStore({
     cart: cartReducer,
     filter: filterReducer,
     token: tokenReducer,
+    favourites: favouriteReducer,
 
   },
   preloadedState: gitInitState(),

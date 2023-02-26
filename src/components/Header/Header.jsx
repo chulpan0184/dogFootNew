@@ -3,11 +3,11 @@ import { Link, NavLink } from 'react-router-dom'
 import { memo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import dogLogo from './images/LogoDog.svg'
+import heart from './images/Heart.svg'
 import headerStyles from './header.module.css'
 import Search from '../Search/Search'
 import { getTokenSelector, getToken } from '../../redux/slices/tokenSlice'
 import { getAllCartProductsSelector } from '../../redux/slices/cartSlice'
-import { Filters } from '../Filters/Filters'
 
 function Header() {
   const token = useSelector(getTokenSelector)
@@ -44,7 +44,15 @@ function Header() {
             </NavLink>
           </li>
           <li>
-            <Filters />
+
+            <NavLink
+              className={headerStyles.favourites}
+              to="/favourites"
+            >
+              Избранные
+              <img className={headerStyles.img__heart} src={heart} alt="heart" />
+            </NavLink>
+
           </li>
           <li>
             <NavLink

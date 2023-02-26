@@ -13,6 +13,8 @@ import { MainMemo as Main } from './components/Main/Main'
 import { Products } from './components/Pages/Products/Products'
 import { Basket } from './components/Pages/Basket/Basket'
 import { store } from './redux/store'
+import { DeteilProducts } from './components/Pages/DeteilProducts/DeteilProducts'
+import { Favourites } from './components/Pages/Favourites/Favourites/Favourites'
 
 const router = createBrowserRouter([
   {
@@ -42,6 +44,18 @@ const router = createBrowserRouter([
       {
         path: 'basket',
         element: <Basket />,
+      },
+      {
+        path: 'deteil',
+        element: <DeteilProducts />,
+      },
+      {
+        path: 'deteil',
+        element: <DeteilProducts />,
+      },
+      {
+        path: 'favourites',
+        element: <Favourites />,
       },
     ],
   },

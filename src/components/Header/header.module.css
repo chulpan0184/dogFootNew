@@ -15,7 +15,7 @@
     padding-right: 8px;
 }
 
-.menu li:nth-child(4){
+.menu li:nth-child(5){
     margin-left: auto;
 }
 
@@ -27,6 +27,9 @@
     padding-top: 16px;
 }
 .menu li:nth-child(3){
+    padding-top: 16px;
+}
+.menu li:nth-child(4){
     padding-top: 16px;
 }
 
@@ -41,13 +44,21 @@
 .img__serch{
     height: 5px;
 }
+.img__heart{
+    max-height: 30px;
+}
 
 .button{
     padding: 0;
     max-height: 30px;
 }
 
+.favourites{
+    display: flex;
+    flex-direction: row;
 
+    color:indigo;
+}
 
 .basketCounter{
     border-radius: 50%;

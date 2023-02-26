@@ -20,6 +20,7 @@ import { getTokenSelector } from '../../../redux/slices/tokenSlice'
 import { clearBasket } from '../../../redux/slices/cartSlice'
 import { withQuery } from '../../HOCs/withQuery'
 import { FILTER_QUERY_NAME, getFilteredProducts } from '../../Filters/constantsFilter'
+import { Filters } from '../../Filters/Filters'
 
 function ProductsInner({ data }) {
   const products = data
@@ -40,6 +41,7 @@ function ProductsInner({ data }) {
           <h3>Каталог товаров</h3>
         </div>
         <div className="d-flex text-center flex-row" style={{ justifyContent:'space-around' }}>
+          <Filters />
           <button
             onClick={clearBasketHandler}
             type="button"
@@ -114,6 +116,17 @@ export function Products() {
   if (currentFilterNameFromQuery) {
     products = getFilteredProducts(data, currentFilterNameFromQuery)
   }
+
+  // const { mutateAsync } = useMutation({
+  //   mutationFn: () => dogFoodApi.getProductById(token),
+  //   enabled: (token !== undefined) && (token !== ''),
+  // })
+
+  // const deteilHandler = async (values) => {
+  //   await mutateAsync(values)
+  //   navigate('/deteil')
+  //   // navigate('/products')
+  // }
 
   return <ProductsInnerWithQuery data={products} isLoading={isLoading} isError={isError} refetch={refetch} error={error} />
 }

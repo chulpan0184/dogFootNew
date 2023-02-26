@@ -1,49 +1,39 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable max-len */
 /* eslint-disable jsx-a11y/alt-text */
-import { useDispatch, useSelector } from 'react-redux'
+/* eslint-disable max-len */
 import { useState } from 'react'
-import {
-  changeIsPickProduct, getAllCartProductsSelector, productIncrement, productDecrement,
-} from '../../../redux/slices/cartSlice'
-import basketitemSyle from './basketitem.module.css'
-import { DeleteCartModal } from '../../Modal/DeleteModal'
+import { useDispatch } from 'react-redux'
+import { changeIsPickProduct, deleteProduct } from '../../../../redux/slices/favouriteSlice'
+import { DeleteCartModal } from '../../../Modal/DeleteModal'
+import favouriteItemSyle from './favouriteItem.module.css'
 
-export function BasketItem({
+export function FavouriteItem({
 
-  pictures, name, price, id, description, discount, wight, stock, count, isChecked,
+  pictures, name, price, id, description, discount, wight, stock, isChecked,
 }) {
-  const cart = useSelector(getAllCartProductsSelector)
+  // const favourites = useSelector(getAllFavouritesProductsSelector)
+  const discountPrise = price * ((100 - discount) / 100)
 
   const dispatch = useDispatch()
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
-  const openDeleteModalHandler = () => {
-    setIsDeleteModalOpen(true)
+  const openDeleteFavouriteHandler = () => {
+    dispatch(deleteProduct(id))
   }
-
-  const discountPrise = price * ((100 - discount) / 100)
 
   const selectProductHandler = () => {
     dispatch(changeIsPickProduct(id))
   }
 
-  const incrementCountHandler = () => {
-    if (count < stock) { dispatch(productIncrement(id)) }
-  }
-
-  const decrementCountHandler = () => {
-    if (count > 1) { dispatch(productDecrement(id)) }
-  }
   return (
     <>
-      <div className={basketitemSyle.wrapper}>
-        <div className={basketitemSyle.card}>
-          <div className={basketitemSyle.cardWr}>
+      <div className={favouriteItemSyle.wrapper}>
+        <div className={favouriteItemSyle.card}>
+          <div className={favouriteItemSyle.cardWr}>
             <div style={{
               display: 'flex',
               position: 'relative',
-              justifyContent: 'center',
+              justifyContent: 'space-between',
               minHeight: '50px',
+              marginBottom: '4px',
             }}
             >
               <input
@@ -52,13 +42,21 @@ export function BasketItem({
                 onChange={selectProductHandler}
               />
               <h6>{name}</h6>
+              <button
+                type="button"
+                onClick={openDeleteFavouriteHandler}
+                className="btn btn-outline-danger card__btn"
+              >
+                <i className="fa-regular fa-heart fa-lg" />
+              </button>
             </div>
-            <div style={{
-              display: 'flex',
-              position: 'relative',
-              justifyContent: 'center',
-              marginBottom: '5px',
-            }}
+            <div
+              style={{
+                display: 'flex',
+                position: 'relative',
+                justifyContent: 'center',
+                marginBottom: '5px',
+              }}
             >
               <img style={{ borderRadius: '8px' }} width="220x" height="110px" src={pictures} />
             </div>
@@ -91,11 +89,6 @@ export function BasketItem({
                 {' '}
                 шт.
               </p>
-              <div className="cart-right-info-stock">
-                <button onClick={decrementCountHandler} type="button">-</button>
-                <span>{ count }</span>
-                <button onClick={incrementCountHandler} type="button">+</button>
-              </div>
               <p>
                 {' '}
               </p>
@@ -111,9 +104,6 @@ export function BasketItem({
               {' '}
               {wight}
             </p>
-            <button className="btn btn-danger py-1 mb-1" type="button" onClick={openDeleteModalHandler}>
-              Удалить
-            </button>
           </div>
         </div>
       </div>
