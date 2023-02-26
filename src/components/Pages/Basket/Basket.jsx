@@ -174,16 +174,18 @@ export function Basket() {
     enabled: !!token,
   })
 
-  const products = cart.map((product) => {
+  let products = cart.map((product) => {
     const productFromBack = data.find((productBack) => productBack._id === product.id)
     if (productFromBack) {
       return { ...product, ...productFromBack }
     }
     return product
   })
-  // if (currentFilterNameFromQuery) {
-  // products = getFilteredProducts(data, currentFilterNameFromQuery)
-  // }
+
+  products = data
+  if (currentFilterNameFromQuery) {
+    products = getFilteredProducts(data, currentFilterNameFromQuery)
+  }
 
   return <BasketInnerWithQuery data={products} isLoading={isLoading} isError={isError} refetch={refetch} error={error} />
 }
