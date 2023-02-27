@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate, Link, useSearchParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import Louder from '../../louder/Louder'
 import { dogFoodApi } from '../../../api/DogFoodApi'
 import { getQueryCartKey } from '../../../utils'
 import { getTokenSelector } from '../../../redux/slices/tokenSlice'
@@ -15,7 +14,6 @@ import { BasketItem } from './BasketItem'
 import {
   chekAllProduct, clearBasket, getAllCartProductsSelector, nonChekAllProduct,
 } from '../../../redux/slices/cartSlice'
-import { FILTER_QUERY_NAME, getFilteredProducts } from '../../Filters/constantsFilter'
 import { Filters } from '../../Filters/Filters'
 import { withQuery } from '../../HOCs/withQuery'
 
@@ -78,7 +76,6 @@ function BasketInner({ data }) {
                 onChange={selectAllProductsHandler}
               />
               <label htmlFor="select_all">Выделить все</label>
-              <Filters />
             </div>
 
             <button type="button" className="btn btn-danger" style={{ minWidth: '160px', minHeight: '30px' }} onClick={clearBasketHandler}>
@@ -154,8 +151,6 @@ const BasketInnerWithQuery = withQuery(BasketInner)
 export function Basket() {
   const token = useSelector(getTokenSelector)
   const cart = useSelector(getAllCartProductsSelector)
-  const [searchParams] = useSearchParams()
-  const currentFilterNameFromQuery = searchParams.get(FILTER_QUERY_NAME)
   const navigate = useNavigate()
   useEffect( // useEffect Непускает в карзину без токена
     () => {
@@ -174,18 +169,13 @@ export function Basket() {
     enabled: !!token,
   })
 
-  let products = cart.map((product) => {
+  const products = cart.map((product) => {
     const productFromBack = data.find((productBack) => productBack._id === product.id)
     if (productFromBack) {
       return { ...product, ...productFromBack }
     }
     return product
   })
-
-  products = data
-  if (currentFilterNameFromQuery) {
-    products = getFilteredProducts(data, currentFilterNameFromQuery)
-  }
 
   return <BasketInnerWithQuery data={products} isLoading={isLoading} isError={isError} refetch={refetch} error={error} />
 }

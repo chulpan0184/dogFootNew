@@ -52,6 +52,7 @@ export function ProductsItem({
   const isInCart = (productsListId) => cart.find((product) => product.id === productsListId)
 
   return (
+
     <div className={productsitemStyle.wrapper}>
       <div className={productsitemStyle.card}>
         <div className={productsitemStyle.cardWr}>
@@ -62,7 +63,9 @@ export function ProductsItem({
             minHeight: '50px',
           }}
           >
-            <h6>{name}</h6>
+            <Link to={`./${id}`}>
+              <h6>{name}</h6>
+            </Link>
             <button
               type="button"
               onClick={moveToFavouriteHandler}
@@ -124,7 +127,6 @@ export function ProductsItem({
         </div>
       </div>
     </div>
-
   )
 }
 

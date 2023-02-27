@@ -2,18 +2,16 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable max-len */
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, Link, useSearchParams } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import {
   chekAllProduct, clearFavourites, getAllFavouritesProductsSelector, nonChekAllProduct,
 } from '../../../../redux/slices/favouriteSlice'
-import { Filters } from '../../../Filters/Filters'
 import { FavouriteItem } from '../FavouritesItem/FavouriteItem'
 import favouriteStyle from './favouriteStyle.module.css'
 import { withQuery } from '../../../HOCs/withQuery'
 import { getTokenSelector } from '../../../../redux/slices/tokenSlice'
-import { FILTER_QUERY_NAME, getFilteredProducts } from '../../../Filters/constantsFilter'
 import { dogFoodApi } from '../../../../api/DogFoodApi'
 import { getQueryCartKey } from '../../../../utils'
 
@@ -57,7 +55,6 @@ function FavouriteInner({ data }) {
                 onChange={selectAllProductsHandler}
               />
               <label htmlFor="select_all">Выделить все</label>
-              <Filters />
             </div>
 
             <button type="button" className="btn btn-danger" style={{ minWidth: '160px', minHeight: '30px' }} onClick={clearFavouriteHandler}>
@@ -96,8 +93,6 @@ const FavouriteInnerWithQuery = withQuery(FavouriteInner)
 export function Favourites() {
   const token = useSelector(getTokenSelector)
   const favourites = useSelector(getAllFavouritesProductsSelector)
-  const [searchParams] = useSearchParams()
-  const currentFilterNameFromQuery = searchParams.get(FILTER_QUERY_NAME)
   const navigate = useNavigate()
   useEffect( // useEffect Непускает в карзину без токена
     () => {
@@ -116,20 +111,13 @@ export function Favourites() {
     enabled: !!token,
   })
 
-  let products = favourites.map((product) => {
+  const products = favourites.map((product) => {
     const productFromBack = data.find((productBack) => productBack._id === product.id)
     if (productFromBack) {
       return { ...product, ...productFromBack }
     }
     return product
   })
-  products = data
-  if (currentFilterNameFromQuery) {
-    products = getFilteredProducts(data, currentFilterNameFromQuery)
-  }
-  // if (currentFilterNameFromQuery) {
-  // products = getFilteredProducts(data, currentFilterNameFromQuery)
-  // }
 
   return <FavouriteInnerWithQuery data={products} isLoading={isLoading} isError={isError} refetch={refetch} error={error} />
 }

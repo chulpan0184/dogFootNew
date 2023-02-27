@@ -9,7 +9,7 @@ import { useEffect } from 'react'
 // import { dogFoodApi } from '../../../api/DogFoodApi'
 // import { AppTokenContext } from '../../contexts/AppTokenContextProvider'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams, Link } from 'react-router-dom'
 import { ProductsItem } from './ProductsItem/ProductsItem'
 // import { withQuery } from '../../HOCs/withQuery'
 import { dogFoodApi } from '../../../api/DogFoodApi'
@@ -42,6 +42,9 @@ function ProductsInner({ data }) {
         </div>
         <div className="d-flex text-center flex-row" style={{ justifyContent:'space-around' }}>
           <Filters />
+          <Link to="./create" className="btn btn-primary">
+            Создать продукт
+          </Link>
           <button
             onClick={clearBasketHandler}
             type="button"
@@ -112,6 +115,8 @@ export function Products() {
   })
 
   let products = data
+
+  console.log(products)
 
   if (currentFilterNameFromQuery) {
     products = getFilteredProducts(data, currentFilterNameFromQuery)

@@ -2,6 +2,7 @@ import { REDUX_LS_KEY } from './constants'
 
 export const initState = {
   cart: [],
+  likes: [],
   token: '',
   filter: {
     search: '',

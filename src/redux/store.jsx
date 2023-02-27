@@ -5,6 +5,7 @@ import { cartReducer } from './slices/cartSlice'
 import { favouriteReducer } from './slices/favouriteSlice'
 
 import { filterReducer } from './slices/filterSlice'
+import { likesReducer } from './slices/likesSlice'
 import { tokenReducer } from './slices/tokenSlice'
 
 export const store = configureStore({
@@ -13,6 +14,7 @@ export const store = configureStore({
     filter: filterReducer,
     token: tokenReducer,
     favourites: favouriteReducer,
+    likes: likesReducer,
 
   },
   preloadedState: gitInitState(),
