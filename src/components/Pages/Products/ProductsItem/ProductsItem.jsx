@@ -4,14 +4,14 @@
 /* eslint-disable max-len */
 
 // import { useDispatch } from 'react-redux'
-
+import clsx from 'clsx'
 import { useDispatch, useSelector } from 'react-redux'
 import { Navigate, Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import { addNewProduct, deleteProduct, getAllCartProductsSelector } from '../../../../redux/slices/cartSlice'
 import productsitemStyle from './productsitem.module.css'
 import { getTokenSelector } from '../../../../redux/slices/tokenSlice'
-import { addNewProductFavour, getAllFavouritesProductsSelector } from '../../../../redux/slices/favouriteSlice'
+import { addNewProductFavour, deleteProductFavourite, getAllFavouritesProductsSelector } from '../../../../redux/slices/favouriteSlice'
 
 export function ProductsItem({
   name, price, pictures, wight, id, discount, stock,
@@ -40,6 +40,9 @@ export function ProductsItem({
     dispatch(addNewProductFavour(id))
   }
 
+  const removeFromFavouriteHandler = () => {
+    dispatch(deleteProductFavourite(id))
+  }
   // const dispatch = useDispatch()
   // const moveToCartHandler = () => {
   //   dispatch(addNewProduct(id))
@@ -50,7 +53,7 @@ export function ProductsItem({
   }
 
   const isInCart = (productsListId) => cart.find((product) => product.id === productsListId)
-
+  const isInFavourites = (productsListId) => favourites.find((product) => product.id === productsListId)
   return (
 
     <div className={productsitemStyle.wrapper}>
@@ -68,8 +71,13 @@ export function ProductsItem({
             </Link>
             <button
               type="button"
-              onClick={moveToFavouriteHandler}
-              className="btn btn-outline-danger card__btn"
+              onClick={isInFavourites(id) ? removeFromFavouriteHandler : moveToFavouriteHandler}
+              className={clsx(
+                'btn',
+                'btn-outline-danger',
+                { 'bg-warning': isInFavourites(id) },
+              )}
+              // "btn btn-outline-danger card__btn"
             >
               <i className="fa-regular fa-heart fa-lg" />
             </button>

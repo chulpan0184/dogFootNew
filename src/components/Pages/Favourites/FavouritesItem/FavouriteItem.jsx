@@ -1,28 +1,30 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable max-len */
+import clsx from 'clsx'
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { changeIsPickProduct, deleteProduct } from '../../../../redux/slices/favouriteSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { changeIsPickProduct, deleteProductFavourite, getAllFavouritesProductsSelector } from '../../../../redux/slices/favouriteSlice'
 import { DeleteCartModal } from '../../../Modal/DeleteModal'
 import favouriteItemSyle from './favouriteItem.module.css'
 
 export function FavouriteItem({
 
-  pictures, name, price, id, description, discount, wight, stock, isChecked,
+  pictures, name, price, id, discount, wight, stock, isChecked,
 }) {
-  // const favourites = useSelector(getAllFavouritesProductsSelector)
+  const favourites = useSelector(getAllFavouritesProductsSelector)
   const discountPrise = price * ((100 - discount) / 100)
 
   const dispatch = useDispatch()
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const openDeleteFavouriteHandler = () => {
-    dispatch(deleteProduct(id))
+    dispatch(deleteProductFavourite(id))
   }
 
   const selectProductHandler = () => {
     dispatch(changeIsPickProduct(id))
   }
 
+  const isInFavourites = (productsListId) => favourites.find((product) => product.id === productsListId)
   return (
     <>
       <div className={favouriteItemSyle.wrapper}>
@@ -45,7 +47,12 @@ export function FavouriteItem({
               <button
                 type="button"
                 onClick={openDeleteFavouriteHandler}
-                className="btn btn-outline-danger card__btn"
+                className={clsx(
+                  'btn',
+                  'btn-outline-danger',
+                  { 'bg-warning': isInFavourites(id) },
+                )}
+                // "btn btn-outline-danger card__btn"
               >
                 <i className="fa-regular fa-heart fa-lg" />
               </button>
@@ -60,11 +67,11 @@ export function FavouriteItem({
             >
               <img style={{ borderRadius: '8px' }} width="220x" height="110px" src={pictures} />
             </div>
-            <p>
+            {/* <p>
               Описание:
               {' '}
               {description}
-            </p>
+            </p> */}
             <div className="d-flex flex-derection-row">
               <span> цена:</span>
               <s>

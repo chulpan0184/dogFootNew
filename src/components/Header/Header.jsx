@@ -8,6 +8,7 @@ import headerStyles from './header.module.css'
 import Search from '../Search/Search'
 import { getTokenSelector, getToken } from '../../redux/slices/tokenSlice'
 import { getAllCartProductsSelector } from '../../redux/slices/cartSlice'
+import { getAllFavouritesProductsSelector } from '../../redux/slices/favouriteSlice'
 
 function Header() {
   const token = useSelector(getTokenSelector)
@@ -19,7 +20,9 @@ function Header() {
   }
 
   const cart = useSelector(getAllCartProductsSelector)
+  const favourites = useSelector(getAllFavouritesProductsSelector)
   const countBasket = Object.keys(cart).length
+  const countFavourites = Object.keys(favourites).length
 
   return (
     <header className={headerStyles.wr}>
@@ -50,6 +53,9 @@ function Header() {
               to="/favourites"
             >
               Избранные
+              <div className={headerStyles.wr_heart}>
+                <div className={headerStyles.count__heart}>{countFavourites}</div>
+              </div>
               <img className={headerStyles.img__heart} src={heart} alt="heart" />
             </NavLink>
 

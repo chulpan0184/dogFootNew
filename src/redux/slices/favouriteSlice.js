@@ -10,7 +10,7 @@ const favouriteSlice = createSlice({
       if (currentProduct) currentProduct.isChecked = !currentProduct.isChecked
     },
 
-    deleteProduct(state, action) {
+    deleteProductFavourite(state, action) {
       return state.filter((product) => product.id !== action.payload)
     },
     clearFavourites() {
@@ -47,7 +47,7 @@ const favouriteSlice = createSlice({
 
 export const {
   // eslint-disable-next-line max-len
-  changeIsPickProduct, deleteProduct, clearFavourites, addNewProductFavour, chekAllProduct, nonChekAllProduct,
+  changeIsPickProduct, deleteProductFavourite, clearFavourites, addNewProductFavour, chekAllProduct, nonChekAllProduct,
 } = favouriteSlice.actions
 export const getAllFavouritesProductsSelector = (state) => state.favourites
 export const favouriteReducer = favouriteSlice.reducer

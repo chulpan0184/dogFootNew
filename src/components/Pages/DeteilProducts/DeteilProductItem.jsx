@@ -1,24 +1,34 @@
+/* eslint-disable no-undef */
 /* eslint-disable max-len */
 /* eslint-disable jsx-a11y/alt-text */
 import { useDispatch, useSelector } from 'react-redux'
+import { useState } from 'react'
+import { clsx } from 'clsx'
 import { addNewProduct, deleteProduct, getAllCartProductsSelector } from '../../../redux/slices/cartSlice'
-import { addNewProductFavour } from '../../../redux/slices/favouriteSlice'
+import { addNewProductFavour, deleteProductFavourite, getAllFavouritesProductsSelector } from '../../../redux/slices/favouriteSlice'
 
 import productDeteilStyle from './productDeteilStyle.module.css'
 // import { prepareData } from './utils'
 import { prepareData } from './utils'
 import { ReviewsDeteil } from './ReviewsDeteil'
+import { ModalDeteil } from '../../Modal/Modal/ModalDeteil/ModalDeteil'
+import { ReviewsForm } from './ReviewsForm/ReviewsForm'
 
 export function DeteilProductItem({
   name, description, pictures, price, wight, stock, discount, id, likes, createdAt, reviews,
 }) {
   const dispatch = useDispatch()
   const cart = useSelector(getAllCartProductsSelector)
-  const moveToFavouriteHandler = () => {
-    dispatch(addNewProductFavour(id))
+  const favourites = useSelector(getAllFavouritesProductsSelector)
+  const [isDeleteModalHandler, setiIsDeleteModalHandler] = useState(false)
+  const isInFavourites = (productsListId) => favourites.find((product) => product.id === productsListId)
+  const closeDeleteModalHandler = () => {
+    setiIsDeleteModalHandler(false)
   }
+  // const openDeleteModalHandler = () => {
+  //   setiIsDeleteModalHandler(true)
+  // }
 
-  console.log({ reviews })
   const stockLikes = Object.keys(likes).length
 
   const reviewsCount = Object.keys(reviews).length
@@ -33,6 +43,13 @@ export function DeteilProductItem({
 
   const removeFromCartHandler = () => {
     dispatch(deleteProduct(id))
+  }
+
+  const removeFromFavouriteHandler = () => {
+    dispatch(deleteProductFavourite(id))
+  }
+  const moveToFavouriteHandler = () => {
+    dispatch(addNewProductFavour(id))
   }
 
   const isInCart = (productsListId) => cart.find((product) => product.id === productsListId)
@@ -51,8 +68,12 @@ export function DeteilProductItem({
             <h6>{name}</h6>
             <button
               type="button"
-              onClick={moveToFavouriteHandler}
-              className="btn btn-outline-danger card__btn"
+              onClick={isInFavourites(id) ? removeFromFavouriteHandler : moveToFavouriteHandler}
+              className={clsx(
+                'btn',
+                'btn-outline-danger',
+                { 'bg-warning': isInFavourites(id) },
+              )}
             >
               <i className="fa-regular fa-heart fa-lg" />
             </button>
@@ -68,11 +89,16 @@ export function DeteilProductItem({
             <img style={{ borderRadius: '8px' }} width="240px" height="130px" src={pictures} />
             <div className="d-flex flex-column">
               <p>{description}</p>
-              <p>
-                Количество лайков:
-                {' '}
-                {stockLikes}
-              </p>
+              <div className="d-flex flex-derection-row">
+                <p>
+                  Количество лайков:
+                  {' '}
+                  {stockLikes}
+                </p>
+                <div className="cart-right-info-stock">
+                  <button type="button">+</button>
+                </div>
+              </div>
               <p>
                 Дата создания:
                 {' '}
@@ -126,15 +152,23 @@ export function DeteilProductItem({
       <div className={productDeteilStyle.cardLeft}>
         <div className="d-flex flex-derection-row justify-content-center">
           <h5 className="p-1 m-1">
-            Отзывы о товарe
+            Отзывы о товаре
             {' '}
             (
             {reviewsCount}
             )
           </h5>
-          <button className="btn btn btn-success p-1 m-1" style={{ minWidth: '180px' }} type="button">
+          <ModalDeteil isOpen={isDeleteModalHandler} closeHandler={closeDeleteModalHandler}>
+            <p>Добавить отзыв</p>
+          </ModalDeteil>
+          {/* <button onClick={openDeleteModalHandler} className="btn btn btn-success p-1 m-1" style={{ minWidth: '180px' }} type="button">
             Добавить отзыв
-          </button>
+          </button> */}
+        </div>
+        <div>
+          <ReviewsForm
+            id={id}
+          />
         </div>
         <div>
           {reviews.map((e) => (

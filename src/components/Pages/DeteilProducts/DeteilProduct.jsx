@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -7,13 +8,25 @@ import { dogFoodApi } from '../../../api/DogFoodApi'
 import { PRODUCT_DETEIL } from '../../../redux/constants'
 import { withQuery } from '../../HOCs/withQuery'
 import { DeteilProductItem } from './DeteilProductItem'
+// import { ReviewsForm } from './ReviewsForm/ReviewsForm'
+// import reviewsInputStyle from './reviewsInputStyle.css'
 
 function ProductDetailInner({ currentProduct }) {
-  console.log({ currentProduct })
   return (
     <div>
-      <div className="d-flex flex-row justify-content-center" style={{ marginTop: '80px' }}>
+      <div className="d-flex flex-column align-items-center" style={{ marginTop: '80px' }}>
         <h3>Подробно о товаре</h3>
+        {/* <div className="d-flex flex-row">
+          <input
+            placeholder="Отзыв"
+            type="text"
+            className="form-control"
+            style={{ width: '300px', margin: '4px auto' }}
+            value={reviews}
+            onChange={changeReviewsHendler}
+          />
+          <button onSubmit={submitHandler} type="submit" value={reviews} className="btn btn-success p-1 m-1">Добавить</button>
+        </div> */}
       </div>
       <DeteilProductItem
         name={currentProduct.name}
@@ -26,6 +39,7 @@ function ProductDetailInner({ currentProduct }) {
         likes={currentProduct.likes}
         createdAt={currentProduct.created_at}
         reviews={currentProduct.reviews}
+        id={currentProduct._id}
       />
     </div>
 
@@ -37,6 +51,7 @@ export function DeteilProduct() {
   const token = useSelector(getTokenSelector)
   const { productId } = useParams()
   const navigate = useNavigate()
+
   useEffect(
     () => {
       if (!token) {
@@ -58,6 +73,7 @@ export function DeteilProduct() {
   })
 
   return (
+
     <ProductDetailInnerWithQuery
       currentProduct={currentProduct}
       isLoading={isLoading}
@@ -65,6 +81,7 @@ export function DeteilProduct() {
       error={error}
       refetch={refetch}
     />
+
   )
 }
 
@@ -78,3 +95,27 @@ export function DeteilProduct() {
 //       },
 //     },
 //   ).then((res) => res.json()),
+
+// const [reviews, setReviews] = useState(() => {
+//   const dataFromLS = localStorage.getItem(REVIEWS_LS_KEY)
+//   const preparedData = dataFromLS ? JSON.parse(dataFromLS) : ''
+//   return preparedData
+// })
+
+// useEffect(() => {
+//   localStorage.setItem(REVIEWS_LS_KEY, JSON.stringify(reviews))
+// }, [reviews])
+
+// const changeReviewsHendler = (e) => {
+//   const reviewsTargetValue = e.target.value
+//   setReviews(reviewsTargetValue)
+// }
+
+// const submitHandler = (value) => {
+//   console.log({ value })
+// }
+
+// createdAt = new Date(Date.parse(created_at))
+// updatedAt = new Date(Date.parse(updated_at))
+// const formattedCreatedAt = createdAt.toLocaleString(createdAt)
+// const formattedUpdatedAt = updatedAt.toLocaleString(updatedAt)

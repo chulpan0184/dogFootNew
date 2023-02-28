@@ -1,33 +1,40 @@
+/* eslint-disable max-len */
+import classNames from 'classnames'
+
+import tableStyle from './tableStyle.module.css'
+
 export function ReviewsDeteil({
   author, text, rating,
 }) {
   return (
     <div className="d-flex flex-derection-column" style={{ position: 'relative' }}>
-      <table style={{ width: '100%' }}>
-        <td style={{ width: '80%', padding: '8px', margin: '0' }}>
-          <tr>
-            Автор:
-            {' '}
-            {' '}
-            <span style={{ fontWeight: 'bold' }}>{author}</span>
+      <table style={{
+        width: '100%',
+      }}
+      >
+        <tbody>
+          <tr style={{ width: '80%', paddingBottom: '20px' }}>
+            <td className="px-2">
+              Автор:
+              <span style={{ fontWeight: 'bold' }}>{author}</span>
+            </td>
+            <td>
+              {/* Рейтинг: */}
+              <i className={classNames('fa-solid fa-star')} />
+              {rating}
+              {/* <span style={{ fontWeight: 'bold' }}>{rating}</span> */}
+            </td>
           </tr>
-          <tr>
-            Отзыв:
-            {' '}
-            {' '}
-            <span style={{ fontWeight: 'bold' }}>{text}</span>
+          <tr style={{ width: '20%' }} className={tableStyle.spaceUnder}>
+            <td className="px-2">
+              Отзыв:
+              <span style={{ fontWeight: 'bold' }}>{text}</span>
+            </td>
           </tr>
-        </td>
-        <td style={{ width: '20%' }}>
-          <tr>
-            Рейтинг:
-            {' '}
-            <span style={{ fontWeight: 'bold' }}>{rating}</span>
-          </tr>
-        </td>
+
+        </tbody>
 
       </table>
-
     </div>
 
   )

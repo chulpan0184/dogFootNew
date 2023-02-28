@@ -11,7 +11,7 @@ import { DeleteCartModal } from '../../Modal/DeleteModal'
 
 export function BasketItem({
 
-  pictures, name, price, id, description, discount, wight, stock, count, isChecked,
+  pictures, name, price, id, discount, wight, stock, count, isChecked,
 }) {
   const cart = useSelector(getAllCartProductsSelector)
 
@@ -62,11 +62,11 @@ export function BasketItem({
             >
               <img style={{ borderRadius: '8px' }} width="220x" height="110px" src={pictures} />
             </div>
-            <p>
+            {/* <p>
               Описание:
               {' '}
               {description}
-            </p>
+            </p> */}
             <div className="d-flex flex-derection-row">
               <span> цена:</span>
               <s>
