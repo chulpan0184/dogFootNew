@@ -11,8 +11,9 @@ import productDeteilStyle from './productDeteilStyle.module.css'
 // import { prepareData } from './utils'
 import { prepareData } from './utils'
 import { ReviewsDeteil } from './ReviewsDeteil'
-import { ModalDeteil } from '../../Modal/Modal/ModalDeteil/ModalDeteil'
+import { ModalEdit } from '../../Modal/Modal/ModalDeteil/ModalEdit'
 import { ReviewsForm } from './ReviewsForm/ReviewsForm'
+import { ModalDelete } from '../../Modal/Modal/ModalDeleteProd/ModalDelete'
 
 export function DeteilProductItem({
   name, description, pictures, price, wight, stock, discount, id, likes, createdAt, reviews,
@@ -20,14 +21,23 @@ export function DeteilProductItem({
   const dispatch = useDispatch()
   const cart = useSelector(getAllCartProductsSelector)
   const favourites = useSelector(getAllFavouritesProductsSelector)
-  const [isDeleteModalHandler, setiIsDeleteModalHandler] = useState(false)
   const isInFavourites = (productsListId) => favourites.find((product) => product.id === productsListId)
+
+  const [isDeleteModalHandler, setiIsDeleteModalHandler] = useState(false)
   const closeDeleteModalHandler = () => {
     setiIsDeleteModalHandler(false)
   }
-  // const openDeleteModalHandler = () => {
-  //   setiIsDeleteModalHandler(true)
-  // }
+  const openDeleteModalHandler = () => {
+    setiIsDeleteModalHandler(true)
+  }
+
+  const [isDeleteModalDeleteHandler, setIsDeleteModalDeleteHandler] = useState(false)
+  const closeDeleteModalDeleteHandler = () => {
+    setIsDeleteModalDeleteHandler(false)
+  }
+  const openDeleteModalDeleteHandler = () => {
+    setIsDeleteModalDeleteHandler(true)
+  }
 
   const stockLikes = Object.keys(likes).length
 
@@ -141,12 +151,23 @@ export function DeteilProductItem({
             {' '}
             {wight}
           </p>
-          <button className="btn btn-primary p-1 mx-1" style={{ minWidth: '180px' }} type="button" onClick={isInCart(id) ? removeFromCartHandler : moveToCartHandler}>
-            {isInCart(id) ? 'В корзине' : 'Добавить в корзину'}
-          </button>
-          <button className="btn btn btn-success p-1" style={{ minWidth: '180px' }} type="button">
-            Редактировать
-          </button>
+          <div className="d-flex flex-derection-row justify-content-center">
+            <button className="btn btn-primary p-1 mx-1" style={{ minWidth: '180px' }} type="button" onClick={isInCart(id) ? removeFromCartHandler : moveToCartHandler}>
+              {isInCart(id) ? 'В корзине' : 'Добавить в корзину'}
+            </button>
+            <ModalEdit isOpen={isDeleteModalHandler} closeHandler={closeDeleteModalHandler}>
+              <p>Редактировать</p>
+            </ModalEdit>
+            <ModalDelete isOpen={isDeleteModalDeleteHandler} closeHandler={closeDeleteModalDeleteHandler} />
+            <button onClick={openDeleteModalHandler} className="btn btn btn-success p-1" style={{ minWidth: '180px' }} type="button">
+              Редактировать
+            </button>
+            <button onClick={openDeleteModalDeleteHandler} className="btn btn btn-danger p-1 mx-1" style={{ minWidth: '180px' }} type="button">
+              Удалить
+            </button>
+
+          </div>
+
         </div>
       </div>
       <div className={productDeteilStyle.cardLeft}>
@@ -158,12 +179,6 @@ export function DeteilProductItem({
             {reviewsCount}
             )
           </h5>
-          <ModalDeteil isOpen={isDeleteModalHandler} closeHandler={closeDeleteModalHandler}>
-            <p>Добавить отзыв</p>
-          </ModalDeteil>
-          {/* <button onClick={openDeleteModalHandler} className="btn btn btn-success p-1 m-1" style={{ minWidth: '180px' }} type="button">
-            Добавить отзыв
-          </button> */}
         </div>
         <div>
           <ReviewsForm

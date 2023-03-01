@@ -31,7 +31,7 @@ function Header() {
           <li>
             <Link to="/">
               <div><img src={dogLogo} alt="dogLogo" /></div>
-              DogFoot
+              DogFood
             </Link>
           </li>
           <li>
@@ -58,7 +58,14 @@ function Header() {
               </div>
               <img className={headerStyles.img__heart} src={heart} alt="heart" />
             </NavLink>
-
+          </li>
+          <li>
+            <NavLink
+              className={headerStyles.user}
+              to="/user"
+            >
+              Пользователь
+            </NavLink>
           </li>
           <li>
             <NavLink

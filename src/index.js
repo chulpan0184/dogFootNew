@@ -16,6 +16,7 @@ import { store } from './redux/store'
 import { Favourites } from './components/Pages/Favourites/Favourites/Favourites'
 import { DeteilProduct } from './components/Pages/DeteilProducts/DeteilProduct'
 import { ProductCreate } from './components/Pages/ProductCreate/ProductCreate'
+import { User } from './components/Pages/User/User'
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: 'signout',
         element: <Signin />,
+      },
+      {
+        path: 'user',
+        element: <User />,
       },
       {
         path: 'products',

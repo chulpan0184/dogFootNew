@@ -14,11 +14,13 @@
 
   .modalInner {
 	position: absolute;
-	padding: 3rem;
+  text-align: center;
+  padding-top: 5rem;
+ 
 	background: white;
 	border-radius: 8px;
-	width: 1000px;
-	height: 600px;
+	width: 400px;
+	height: 200px;
 }
 
 .closeBtn {

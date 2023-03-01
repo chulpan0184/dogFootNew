@@ -3,14 +3,15 @@ import * as Yup from 'yup'
 
 export const createProductFormValidationSchema = Yup.object({
 
-  name: Yup.string(),
-  description: Yup.string(),
   pictures: Yup.string()
-    .url()
+    .url(),
+  name: Yup.string()
     .required('Required'),
+  price: Yup.number()
+    .required('Required'),
+  discount: Yup.number(),
+  stock: Yup.number(),
   wight: Yup.string(),
-  price: Yup.string(),
-  stock: Yup.string(),
-  discount: Yup.string(),
-  created_at: Yup.date().default(() => new Date(new Date().setDate(new Date().getDate() + 7))),
+  description: Yup.string()
+    .required('Required'),
 })
