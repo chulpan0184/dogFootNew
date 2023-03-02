@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { useNavigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
 import {
@@ -77,7 +78,7 @@ export function ProductCreate() {
         <Field name="description" placeholder="Description" type="text" />
         <ErrorMessage component="p" className="error" name="description" />
 
-        <button disabled={isLoading} type="submit">Submit</button>
+        <button className="btn btn-secondary my-2" style={{ minWidth: '140px' }} disabled={isLoading} type="submit">Создать</button>
       </Form>
     </Formik>
   )

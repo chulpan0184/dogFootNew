@@ -7,7 +7,7 @@ import {
   changeIsPickProduct, getAllCartProductsSelector, productIncrement, productDecrement,
 } from '../../../redux/slices/cartSlice'
 import basketitemSyle from './basketitem.module.css'
-import { DeleteCartModal } from '../../Modal/DeleteModal'
+import { DeleteCartModal } from '../../Modal/ModalNotActive/DeleteModal'
 
 export function BasketItem({
 

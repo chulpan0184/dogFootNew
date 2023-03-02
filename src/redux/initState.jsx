@@ -4,6 +4,7 @@ export const initState = {
   cart: [],
   likes: [],
   token: '',
+  email: '',
   filter: {
     search: '',
   },

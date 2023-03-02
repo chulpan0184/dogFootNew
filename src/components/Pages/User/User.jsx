@@ -14,7 +14,6 @@ function UserInner({ data }) {
   const token = useSelector(getTokenSelector)
   const navigate = useNavigate()
   const user = data
-  console.log({ user })
   useEffect(
     () => {
       if (!token) {

@@ -43,10 +43,6 @@ export function ProductsItem({
   const removeFromFavouriteHandler = () => {
     dispatch(deleteProductFavourite(id))
   }
-  // const dispatch = useDispatch()
-  // const moveToCartHandler = () => {
-  //   dispatch(addNewProduct(id))
-  // }
 
   const removeFromCartHandler = () => {
     dispatch(deleteProduct(id))
@@ -126,11 +122,8 @@ export function ProductsItem({
             {' '}
             {wight}
           </p>
-          <button className="btn btn-primary p-1 mx-1" style={{ minWidth: '100px' }} type="button" onClick={isInCart(id) ? removeFromCartHandler : moveToCartHandler}>
-            {isInCart(id) ? 'В корзине' : 'Добавить'}
-          </button>
-          <button className="btn btn btn-success p-1" style={{ minWidth: '100px' }} type="button">
-            Подробно
+          <button className="btn btn-primary p-1 mx-1" style={{ maxWidth: '160px' }} type="button" onClick={isInCart(id) ? removeFromCartHandler : moveToCartHandler}>
+            {isInCart(id) ? 'В корзине' : 'Добавить в карзину'}
           </button>
         </div>
       </div>

@@ -12,12 +12,12 @@ import modalDeteilStyle from './modalDeteilStyle.module.css'
 import { getTokenSelector } from '../../../../redux/slices/tokenSlice'
 import { createProductEditValidationSchema } from './helpers/validatorEdit'
 
-function ModalInner({ children, closeHandler }) {
+function ModalInner({ children, closeHandler, id }) {
   const navigate = useNavigate()
   // const dispatch = useDispatch()
   const token = useSelector(getTokenSelector)
-  // const creatid = useSelector(getCreatidSelector)
-  // const { productId } = useParams()
+  // const { id } = useParams()
+  console.log({ id })
 
   useEffect(
     () => {
@@ -58,10 +58,11 @@ function ModalInner({ children, closeHandler }) {
   const closeModalByClickClose = () => {
     closeHandler()
   }
+
   const {
     mutateAsync, isLoading,
   } = useMutation({
-    mutationFn: (values) => fetch('https://api.react-learning.ru/products', {
+    mutationFn: (values) => fetch(`https://api.react-learning.ru/products/${id}`, {
       method: 'PATCH',
       headers: {
         authorization: `Bearer ${token}`,
@@ -72,12 +73,11 @@ function ModalInner({ children, closeHandler }) {
   })
 
   const submitProductEditHandler = async (values) => {
-    const response = await mutateAsync(values)
-    console.log({ response })
+    await mutateAsync(values, id)
     // await mutateAsync(values)
-    console.log(values)
 
-    navigate(`/products/${response.productId}`)
+    navigate('/products')
+    closeHandler()
   }
 
   return (
@@ -110,7 +110,7 @@ function ModalInner({ children, closeHandler }) {
           <Field name="description" placeholder="Description" type="text" />
           <ErrorMessage component="p" className="error" name="description" />
 
-          <button disabled={isLoading} type="submit">Submit</button>
+          <button className="btn btn-secondary my-2" style={{ minWidth: '140px' }} disabled={isLoading} type="submit">Редактировать</button>
         </Form>
       </Formik>
 
@@ -122,18 +122,14 @@ function ModalInner({ children, closeHandler }) {
       >
         Close
       </button>
-      <button
-        type="button"
-        className="btn btn-danger"
-      >
-        Delete
-      </button>
       {children}
     </div>
   )
 }
 
-export function ModalEdit({ children, closeHandler, isOpen }) {
+export function ModalEdit({
+  children, closeHandler, isOpen, id,
+}) {
   if (!isOpen) return null
 
   const closeModalByClickWrap = (e) => {
@@ -144,7 +140,7 @@ export function ModalEdit({ children, closeHandler, isOpen }) {
 
   return createPortal(
     <div onClick={closeModalByClickWrap} className={modalDeteilStyle.wrap}>
-      <ModalInner closeHandler={closeHandler}>
+      <ModalInner id={id} closeHandler={closeHandler}>
         {children}
       </ModalInner>
     </div>,

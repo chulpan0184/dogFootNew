@@ -11,13 +11,15 @@ import productDeteilStyle from './productDeteilStyle.module.css'
 // import { prepareData } from './utils'
 import { prepareData } from './utils'
 import { ReviewsDeteil } from './ReviewsDeteil'
-import { ModalEdit } from '../../Modal/Modal/ModalDeteil/ModalEdit'
+import { ModalEdit } from '../../Modal/Modal/ModalEdit/ModalEdit'
 import { ReviewsForm } from './ReviewsForm/ReviewsForm'
 import { ModalDelete } from '../../Modal/Modal/ModalDeleteProd/ModalDelete'
+// import { getEmailSelector } from '../../../redux/slices/emailSlice'
 
 export function DeteilProductItem({
-  name, description, pictures, price, wight, stock, discount, id, likes, createdAt, reviews,
+  name, description, pictures, price, wight, stock, discount, id, likes, createdAt, reviews, currentEmail, email,
 }) {
+  const isAuthtor = (email === currentEmail)
   const dispatch = useDispatch()
   const cart = useSelector(getAllCartProductsSelector)
   const favourites = useSelector(getAllFavouritesProductsSelector)
@@ -155,19 +157,19 @@ export function DeteilProductItem({
             <button className="btn btn-primary p-1 mx-1" style={{ minWidth: '180px' }} type="button" onClick={isInCart(id) ? removeFromCartHandler : moveToCartHandler}>
               {isInCart(id) ? 'В корзине' : 'Добавить в корзину'}
             </button>
-            <ModalEdit isOpen={isDeleteModalHandler} closeHandler={closeDeleteModalHandler}>
-              <p>Редактировать</p>
-            </ModalEdit>
-            <ModalDelete isOpen={isDeleteModalDeleteHandler} closeHandler={closeDeleteModalDeleteHandler} />
-            <button onClick={openDeleteModalHandler} className="btn btn btn-success p-1" style={{ minWidth: '180px' }} type="button">
-              Редактировать
-            </button>
+            <ModalEdit id={id} isOpen={isDeleteModalHandler} closeHandler={closeDeleteModalHandler} />
+            <ModalDelete id={id} isOpen={isDeleteModalDeleteHandler} closeHandler={closeDeleteModalDeleteHandler} />
+            {isAuthtor && (
+              <button onClick={openDeleteModalHandler} className="btn btn btn-secondary p-1" style={{ minWidth: '180px' }} type="button">
+                Редактировать
+              </button>
+            )}
+            {isAuthtor && (
             <button onClick={openDeleteModalDeleteHandler} className="btn btn btn-danger p-1 mx-1" style={{ minWidth: '180px' }} type="button">
               Удалить
             </button>
-
+            )}
           </div>
-
         </div>
       </div>
       <div className={productDeteilStyle.cardLeft}>

@@ -8,10 +8,11 @@ import { dogFoodApi } from '../../../api/DogFoodApi'
 import { PRODUCT_DETEIL } from '../../../redux/constants'
 import { withQuery } from '../../HOCs/withQuery'
 import { DeteilProductItem } from './DeteilProductItem'
+import { getEmailSelector } from '../../../redux/slices/emailSlice'
 // import { ReviewsForm } from './ReviewsForm/ReviewsForm'
 // import reviewsInputStyle from './reviewsInputStyle.css'
 
-function ProductDetailInner({ currentProduct }) {
+function ProductDetailInner({ currentProduct, email }) {
   return (
     <div>
       <div className="d-flex flex-column align-items-center" style={{ marginTop: '80px' }}>
@@ -40,6 +41,8 @@ function ProductDetailInner({ currentProduct }) {
         createdAt={currentProduct.created_at}
         reviews={currentProduct.reviews}
         id={currentProduct._id}
+        currentEmail={currentProduct.author.email}
+        email={email}
       />
     </div>
 
@@ -49,6 +52,8 @@ const ProductDetailInnerWithQuery = withQuery(ProductDetailInner)
 
 export function DeteilProduct() {
   const token = useSelector(getTokenSelector)
+  const email = useSelector(getEmailSelector)
+
   const { productId } = useParams()
   const navigate = useNavigate()
 
@@ -80,6 +85,7 @@ export function DeteilProduct() {
       isError={isError}
       error={error}
       refetch={refetch}
+      email={email}
     />
 
   )

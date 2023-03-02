@@ -3,17 +3,17 @@ import { createPortal } from 'react-dom'
 import { useEffect } from 'react'
 import classNames from 'classnames'
 import { useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
 import modalDeleteStyle from './modalDeleteStyle.module.css'
 import { getTokenSelector } from '../../../../redux/slices/tokenSlice'
 
-function ModalDeleteInner({ children, closeHandler }) {
+function ModalDeleteInner({ children, closeHandler, id }) {
   const navigate = useNavigate()
   // const dispatch = useDispatch()
   const token = useSelector(getTokenSelector)
   // const creatid = useSelector(getCreatidSelector)
-  const { productId } = useParams()
+  // const { productId } = useParams()
 
   useEffect(
     () => {
@@ -48,23 +48,20 @@ function ModalDeleteInner({ children, closeHandler }) {
   const {
     mutateAsync, isLoading,
   } = useMutation({
-    mutationFn: (values) => fetch(`https://api.react-learning.ru/products/${productId}`, {
+    mutationFn: () => fetch(`https://api.react-learning.ru/products/${id}`, {
       method: 'DELETE',
       headers: {
         authorization: `Bearer ${token}`,
         'Content-type': 'application/json',
       },
-      body: JSON.stringify(values),
+
     }).then((res) => res.json()),
   })
 
   console.log(isLoading)
 
   const submitProductDeleteHandler = async (values) => {
-    await mutateAsync(values)
-    // await mutateAsync(values)
-    console.log(values)
-
+    await mutateAsync(values, id)
     navigate('/products')
   }
 
@@ -91,7 +88,9 @@ function ModalDeleteInner({ children, closeHandler }) {
   )
 }
 
-export function ModalDelete({ children, closeHandler, isOpen }) {
+export function ModalDelete({
+  children, closeHandler, isOpen, id,
+}) {
   if (!isOpen) return null
 
   const closeModalByClickWrap = (e) => {
@@ -102,7 +101,7 @@ export function ModalDelete({ children, closeHandler, isOpen }) {
 
   return createPortal(
     <div onClick={closeModalByClickWrap} className={modalDeleteStyle.wrap}>
-      <ModalDeleteInner closeHandler={closeHandler}>
+      <ModalDeleteInner id={id} closeHandler={closeHandler}>
         {children}
       </ModalDeleteInner>
     </div>,

@@ -33,10 +33,12 @@ export function FilterItem({ type, clickFilterHandler, name }) {
   return (
     <button
       type="button"
-      style={{ minWidth: '100px', minHeight: '30px', padding: 0 }}
+      style={{
+        minWidth: '100px', minHeight: '30px', padding: 0, margin: '2px',
+      }}
       className={classNames(
-        'btn',
-        { 'btn-primary': !isActive },
+        'btn my-1',
+        { 'btn-dark': !isActive },
         { 'btn-danger': isActive },
       )}
       onClick={clickHandler}

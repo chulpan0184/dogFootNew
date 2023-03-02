@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { changeIsPickProduct, deleteProductFavourite, getAllFavouritesProductsSelector } from '../../../../redux/slices/favouriteSlice'
-import { DeleteCartModal } from '../../../Modal/DeleteModal'
+import { DeleteCartModal } from '../../../Modal/ModalNotActive/DeleteModal'
 import favouriteItemSyle from './favouriteItem.module.css'
 
 export function FavouriteItem({

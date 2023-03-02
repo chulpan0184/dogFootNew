@@ -1,6 +1,6 @@
 import classNames from 'classnames'
-import { Link, NavLink } from 'react-router-dom'
-import { memo } from 'react'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { memo, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import dogLogo from './images/LogoDog.svg'
 import heart from './images/Heart.svg'
@@ -13,6 +13,16 @@ import { getAllFavouritesProductsSelector } from '../../redux/slices/favouriteSl
 function Header() {
   const token = useSelector(getTokenSelector)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  useEffect(
+    () => {
+      if (!token) {
+        navigate('/signin')
+      }
+    },
+    [token],
+  )
 
   const outHandler = () => {
     dispatch(getToken(''))

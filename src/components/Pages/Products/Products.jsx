@@ -42,7 +42,7 @@ function ProductsInner({ data }) {
         </div>
         <div className="d-flex text-center flex-row" style={{ justifyContent:'space-around' }}>
           <Filters />
-          <Link to="./create" className="btn btn-primary">
+          <Link to="./create" className="btn btn-secondary">
             Создать продукт
           </Link>
           <button
@@ -115,8 +115,6 @@ export function Products() {
   })
 
   let products = data
-
-  console.log(products)
 
   if (currentFilterNameFromQuery) {
     products = getFilteredProducts(data, currentFilterNameFromQuery)

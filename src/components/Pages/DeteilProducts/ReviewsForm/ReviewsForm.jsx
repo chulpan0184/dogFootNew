@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik'
@@ -9,10 +9,12 @@ import { useEffect } from 'react'
 import { getTokenSelector } from '../../../../redux/slices/tokenSlice'
 // import Loader from '../../../louder/Louder'
 import { createReviewsFormValidationSchema } from './helpers/validatorReviews'
+import { PRODUCT_DETEIL } from '../../../../redux/constants'
 
 export function ReviewsForm({ id }) {
   const token = useSelector(getTokenSelector)
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
 
   useEffect(
     () => {
@@ -28,7 +30,7 @@ export function ReviewsForm({ id }) {
   }
 
   const {
-    mutateAsync, isLoading, isError, error,
+    mutateAsync, isLoading,
   } = useMutation({
     mutationFn: (values) => fetch(fetch(`https://api.react-learning.ru/products/review/${id}`, {
       method: 'POST',
@@ -39,24 +41,13 @@ export function ReviewsForm({ id }) {
       body: JSON.stringify(values),
     }).then((res) => res.json)),
   })
-  //   if (isLoading) return <Loader />
-  //   if (isError) {
-  //     return (
-  //       <div className="d-flex flex-column justify-content-center">
-
-  //         <p>
-  //           Error happend:
-  //           {' '}
-  //           {error.message}
-  //         </p>
-  //       </div>
-  //     )
-  //   }
 
   const submitHandler = async (values) => {
     await mutateAsync(values)
+    queryClient.invalidateQueries({ queryKey: [PRODUCT_DETEIL] })
+    // navigate(`/products/${id}`)
   }
-  console.log(isError, error)
+
   return (
     <Formik
       initialValues={initialValues}
@@ -85,3 +76,16 @@ export function ReviewsForm({ id }) {
 
   )
 }
+//   if (isLoading) return <Loader />
+//   if (isError) {
+//     return (
+//       <div className="d-flex flex-column justify-content-center">
+
+//         <p>
+//           Error happend:
+//           {' '}
+//           {error.message}
+//         </p>
+//       </div>
+//     )
+//   }

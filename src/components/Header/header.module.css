@@ -1,4 +1,5 @@
 .wr{
+    position: relative;
     background:lightsalmon;
     font-weight:500;
     position: fixed;
@@ -9,6 +10,7 @@
 }
 
 .menu{
+    position: relative;
     display: flex;
     list-style: none;
     gap: 8px;
@@ -24,13 +26,15 @@
 }
 
 .menu li:nth-child(2){
-    padding-top: 16px;
+    margin-top: 4px;
+   
 }
 .menu li:nth-child(3){
-    padding-top: 16px;
+    margin-top: 20px;
+    
 }
 .menu li:nth-child(4){
-    padding-top: 16px;
+    margin-top: 20px;
 }
 
 .menu a{
@@ -85,7 +89,6 @@
     position: absolute;
     left: 10.5px;
     top:3px;
-
 }
 
 

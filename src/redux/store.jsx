@@ -6,9 +6,11 @@ import { favouriteReducer } from './slices/favouriteSlice'
 import { filterReducer } from './slices/filterSlice'
 import { likesReducer } from './slices/likesSlice'
 import { tokenReducer } from './slices/tokenSlice'
+import { emailReducer } from './slices/emailSlice'
 
 export const store = configureStore({
   reducer: {
+    email: emailReducer,
     cart: cartReducer,
     filter: filterReducer,
     token: tokenReducer,
