@@ -15,7 +15,7 @@ import { getEmailSelector } from '../../../redux/slices/emailSlice'
 function ProductDetailInner({ currentProduct, email }) {
   return (
     <div>
-      <div className="d-flex flex-column align-items-center" style={{ marginTop: '80px' }}>
+      <div className="d-flex flex-column align-items-center" style={{ marginTop: '110px' }}>
         <h3>Подробно о товаре</h3>
         {/* <div className="d-flex flex-row">
           <input

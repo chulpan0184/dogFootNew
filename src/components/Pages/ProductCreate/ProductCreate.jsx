@@ -56,7 +56,7 @@ export function ProductCreate() {
       validatorSchema={createProductFormValidationSchema}
       onSubmit={submitProductHandler}
     >
-      <Form className="d-flex flex-column" style={{ marginTop: '100px' }}>
+      <Form className="d-flex flex-column" style={{ marginTop: '140px' }}>
         <Field name="name" placeholder="Name" type="boo" />
         <ErrorMessage component="p" className="error" name="name" />
 
