@@ -24,9 +24,9 @@ export function ProductCreate() {
   const initialValues = {
     pictures: '',
     name: '',
-    price: 0,
-    discount: 0,
-    stock: 0,
+    price: null,
+    discount: null,
+    stock: null,
     wight: '',
     description: '',
   }
@@ -51,36 +51,41 @@ export function ProductCreate() {
   }
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validatorSchema={createProductFormValidationSchema}
-      onSubmit={submitProductHandler}
-    >
-      <Form className="d-flex flex-column" style={{ marginTop: '140px' }}>
-        <Field name="name" placeholder="Name" type="boo" />
-        <ErrorMessage component="p" className="error" name="name" />
+    <>
+      <div className="d-flex flex-row justify-content-center" style={{ marginTop: '110px' }}><h3>Создать продукт</h3></div>
 
-        <Field name="pictures" type="text" placeholder="Img url" />
-        <ErrorMessage component="p" className="error" name="pictures" />
+      <Formik
+        initialValues={initialValues}
+        validatorSchema={createProductFormValidationSchema}
+        onSubmit={submitProductHandler}
+      >
+        <Form className="d-flex flex-column" style={{ marginTop: '10px' }}>
+          <Field className="m-2" name="name" placeholder="Name" type="text" />
+          <ErrorMessage component="p" className="error" name="name" />
 
-        <Field name="price" type="text" placeholder="Price" />
-        <ErrorMessage component="p" className="error" name="price" />
+          <Field className="m-2" name="pictures" type="text" placeholder="Img url" />
+          <ErrorMessage component="p" className="error" name="pictures" />
 
-        <Field name="discount" type="text" placeholder="Discount" />
-        <ErrorMessage component="p" className="error" name="discount" />
+          <Field className="m-2" name="price" type="text" placeholder="Price" />
+          <ErrorMessage component="p" className="error" name="price" />
 
-        <Field name="stock" type="text" placeholder="Stock" />
-        <ErrorMessage component="p" className="error" name="stock" />
+          <Field className="m-2" name="discount" type="text" placeholder="Discount" />
+          <ErrorMessage component="p" className="error" name="discount" />
 
-        <Field name="wight" type="text" placeholder="Weight" />
-        <ErrorMessage component="p" className="error" name="wight" />
+          <Field className="m-2" name="stock" type="text" placeholder="Stock" />
+          <ErrorMessage component="p" className="error" name="stock" />
 
-        <Field name="description" placeholder="Description" type="text" />
-        <ErrorMessage component="p" className="error" name="description" />
+          <Field className="m-2" name="wight" type="text" placeholder="Weight" />
+          <ErrorMessage component="p" className="error" name="wight" />
 
-        <button className="btn btn-secondary my-2" style={{ minWidth: '140px' }} disabled={isLoading} type="submit">Создать</button>
-      </Form>
-    </Formik>
+          <Field className="m-2" name="description" placeholder="Description" type="text" />
+          <ErrorMessage component="p" className="error" name="description" />
+
+          <button className="btn btn-secondary m-2" style={{ minWidth: '140px' }} disabled={isLoading} type="submit">Создать</button>
+        </Form>
+      </Formik>
+    </>
+
   )
 }
 
