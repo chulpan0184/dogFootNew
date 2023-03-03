@@ -9,7 +9,6 @@ function App() {
       <Header />
       <div className="container">
         <Outlet />
-        <hr />
         <Footer />
       </div>
     </>

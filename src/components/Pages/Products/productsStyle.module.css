@@ -4,31 +4,31 @@
     flex-direction: row;
     justify-content:center;
     flex-wrap: wrap;
-    margin-top: 27vh;
+    margin-top: 190px;
     gap: 18px;
 }
+
 .h1{
-    text-align:center; 
+    text-align: center; 
 }
 
 .buttonWr{
     text-align: center;
-   
 }
+
 button{
     max-width: 100px;
     max-height: 50px;
     justify-content: center;
-    }
+}
 
 .header{
-    position:fixed;
-    display:flex;
+    position: fixed;
+    display: flex;
     flex-direction: column;
-    justify-content:end;
-    left:0px;
-    width:100vw;
+    left: 0px;
+    width: 100vw;
     top: 100px;
     z-index: 9;
     background-color: white;
-    }
+}
