@@ -157,7 +157,7 @@ export function DeteilProductItem({
             <button className="btn btn-primary p-1 mx-1" style={{ minWidth: '180px' }} type="button" onClick={isInCart(id) ? removeFromCartHandler : moveToCartHandler}>
               {isInCart(id) ? 'В корзине' : 'Добавить в корзину'}
             </button>
-            <ModalEdit id={id} isOpen={isDeleteModalHandler} closeHandler={closeDeleteModalHandler} />
+            <ModalEdit pictures={pictures} name={name} price={price} discount={discount} stock={stock} wight={wight} description={description} id={id} isOpen={isDeleteModalHandler} closeHandler={closeDeleteModalHandler} />
             <ModalDelete id={id} isOpen={isDeleteModalDeleteHandler} closeHandler={closeDeleteModalDeleteHandler} />
             {isAuthtor && (
               <button onClick={openDeleteModalHandler} className="btn btn btn-secondary p-1" style={{ minWidth: '180px' }} type="button">

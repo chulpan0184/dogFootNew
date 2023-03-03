@@ -12,7 +12,9 @@ import modalDeteilStyle from './modalDeteilStyle.module.css'
 import { getTokenSelector } from '../../../../redux/slices/tokenSlice'
 import { createProductEditValidationSchema } from './helpers/validatorEdit'
 
-function ModalInner({ children, closeHandler, id }) {
+function ModalInner({
+  children, closeHandler, id, pictures, name, price, discount, stock, wight, description,
+}) {
   const navigate = useNavigate()
   // const dispatch = useDispatch()
   const token = useSelector(getTokenSelector)
@@ -28,13 +30,13 @@ function ModalInner({ children, closeHandler, id }) {
     [token],
   )
   const initialValues = {
-    pictures: '',
-    name: '',
-    price: 0,
-    discount: 0,
-    stock: 0,
-    wight: '',
-    description: '',
+    pictures,
+    name,
+    price,
+    discount,
+    stock,
+    wight,
+    description,
   }
 
   useEffect(() => {
@@ -128,7 +130,7 @@ function ModalInner({ children, closeHandler, id }) {
 }
 
 export function ModalEdit({
-  children, closeHandler, isOpen, id,
+  children, closeHandler, isOpen, id, pictures, name, price, discount, stock, wight, description,
 }) {
   if (!isOpen) return null
 
@@ -140,7 +142,7 @@ export function ModalEdit({
 
   return createPortal(
     <div onClick={closeModalByClickWrap} className={modalDeteilStyle.wrap}>
-      <ModalInner id={id} closeHandler={closeHandler}>
+      <ModalInner id={id} pictures={pictures} name={name} price={price} discount={discount} stock={stock} wight={wight} description={description} closeHandler={closeHandler}>
         {children}
       </ModalInner>
     </div>,
