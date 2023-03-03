@@ -13,6 +13,7 @@ import { createSigninFormValidationSchema } from './validatorSignin'
 import { dogFoodApi } from '../../../api/DogFoodApi'
 import { getToken, getTokenSelector } from '../../../redux/slices/tokenSlice'
 import styleSignIn from './styleSignIn.module.css'
+import { getEmail } from '../../../redux/slices/emailSlice'
 // import { AppTokenContext } from '../../contexts/AppTokenContextProvider'
 
 const initialValues = {
@@ -22,17 +23,21 @@ const initialValues = {
 
 function Signin() {
   const token = useSelector(getTokenSelector)
+  // const email = useSelector(getEmailSelector)
+  // console.log({ email })
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { mutateAsync } = useMutation({
     mutationFn: (values) => dogFoodApi.Signin(values, token)
-      .then((res) => dispatch(getToken(res.token))),
+      .then((res) => {
+        dispatch(getToken(res.token))
+        dispatch(getEmail(res.data.email))
+      }),
   })
 
   const submitHandler = async (values) => {
     await mutateAsync(values)
     setTimeout(() => navigate('/products'))
-    // navigate('/products')
   }
 
   return (

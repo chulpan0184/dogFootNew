@@ -1,16 +1,28 @@
 import classNames from 'classnames'
-import { Link, NavLink } from 'react-router-dom'
-import { memo } from 'react'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { memo, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import dogLogo from './images/LogoDog.svg'
+import heart from './images/Heart.svg'
 import headerStyles from './header.module.css'
 import Search from '../Search/Search'
 import { getTokenSelector, getToken } from '../../redux/slices/tokenSlice'
 import { getAllCartProductsSelector } from '../../redux/slices/cartSlice'
+import { getAllFavouritesProductsSelector } from '../../redux/slices/favouriteSlice'
 
 function Header() {
   const token = useSelector(getTokenSelector)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  useEffect(
+    () => {
+      if (!token) {
+        navigate('/signin')
+      }
+    },
+    [token],
+  )
 
   const outHandler = () => {
     dispatch(getToken(''))
@@ -18,7 +30,9 @@ function Header() {
   }
 
   const cart = useSelector(getAllCartProductsSelector)
+  const favourites = useSelector(getAllFavouritesProductsSelector)
   const countBasket = Object.keys(cart).length
+  const countFavourites = Object.keys(favourites).length
 
   return (
     <header className={headerStyles.wr}>
@@ -27,7 +41,7 @@ function Header() {
           <li>
             <Link to="/">
               <div><img src={dogLogo} alt="dogLogo" /></div>
-              DogFoot
+              DogFood
             </Link>
           </li>
           <li>
@@ -40,6 +54,27 @@ function Header() {
             >
               Корзина
               <div className={headerStyles.basketCounter}>{countBasket}</div>
+            </NavLink>
+          </li>
+          <li>
+
+            <NavLink
+              className={headerStyles.favourites}
+              to="/favourites"
+            >
+              Избранные
+              <div className={headerStyles.wr_heart}>
+                <div className={headerStyles.count__heart}>{countFavourites}</div>
+              </div>
+              <img className={headerStyles.img__heart} src={heart} alt="heart" />
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              className={headerStyles.user}
+              to="/user"
+            >
+              Пользователь
             </NavLink>
           </li>
           <li>

@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { deleteProduct } from '../../redux/slices/cartSlice'
+import { deleteProduct } from '../../../redux/slices/cartSlice'
 import { Modal } from './Modal'
 import styles from './Modal.module.css'
 

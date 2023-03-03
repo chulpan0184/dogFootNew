@@ -7,11 +7,11 @@ import {
   changeIsPickProduct, getAllCartProductsSelector, productIncrement, productDecrement,
 } from '../../../redux/slices/cartSlice'
 import basketitemSyle from './basketitem.module.css'
-import { DeleteCartModal } from '../../Modal/DeleteModal'
+import { DeleteCartModal } from '../../Modal/ModalNotActive/DeleteModal'
 
 export function BasketItem({
 
-  pictures, name, price, id, description, discount, wight, stock, count, isChecked,
+  pictures, name, price, id, discount, wight, stock, count, isChecked,
 }) {
   const cart = useSelector(getAllCartProductsSelector)
 
@@ -62,11 +62,11 @@ export function BasketItem({
             >
               <img style={{ borderRadius: '8px' }} width="220x" height="110px" src={pictures} />
             </div>
-            <p>
+            {/* <p>
               Описание:
               {' '}
               {description}
-            </p>
+            </p> */}
             <div className="d-flex flex-derection-row">
               <span> цена:</span>
               <s>
@@ -111,7 +111,7 @@ export function BasketItem({
               {' '}
               {wight}
             </p>
-            <button className="btn btn-primary mb-3" type="button" onClick={openDeleteModalHandler}>
+            <button className="btn btn-danger py-1 mb-1" type="button" onClick={openDeleteModalHandler}>
               Удалить
             </button>
           </div>

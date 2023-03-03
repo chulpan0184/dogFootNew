@@ -1,13 +1,13 @@
 .wrap{
     position: relative;
     display: flex;
+    flex-direction: row;
+    justify-content:center;
     flex-wrap: wrap;
-    justify-content: center;
+    margin-top: 27vh;
     gap: 18px;
-    margin-top: 23vh;
 }
 .h1{
-    
     text-align:center; 
 }
 
@@ -28,7 +28,7 @@ button{
     justify-content:end;
     left:0px;
     width:100vw;
-    height:29vh;
+    top: 100px;
     z-index: 9;
     background-color: white;
     }
